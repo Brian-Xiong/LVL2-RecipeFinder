@@ -10,22 +10,45 @@
     <body>
         <header>
             <h1>Brian's Recipe Finder</h1>
-            <nav>
+            <div class="header-actions">
+                <!-- Search and All Recipes buttons — wired up in script.js -->
                 <button>Search for Recipe</button>
                 <button>All Recipes</button>
-            </nav>
+            </div>
         </header>
 
         <div class="container"> <!-- do I need to wrap everything inside this div with a <main> tag??????????????????????????? -->
             <h2>Welcome to Brian's Recipe Finder!</h2>
             <p>Discover delicious recipes and find inspiration for your next meal.</p>
-            <a href="recipes.html" class="button">Explore Recipes</a>
         </div>
 
 
 
+        <section class="content">
+            <!-- Search bar with a search button -->
+            <div class="section-block">
+                <input type="text" maxlength="50" id="search-input" placeholder="Enter recipe name or ingredient">
+                <button id="searchButton">Search</button>
+            </div>
+
+            <!-- TODO add suggested recipes !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+            <div class="section-block">
+                <h3>Suggested Recipes</h3>
+                <ul id="suggested-recipes-list"></ul>
+                <!-- Suggested recipes will be dynamically added here -->
+            </div>
+
+            <!-- TODO add recent recipes -->
+            <div class="section-block">
+                <h3>Recent Recipes</h3>
+                <ul id="recent-recipes-list"></ul>
+                <!-- Recent recipes will be dynamically added here -->
+            </div>
+
+        </section>
 
 
+        
 
 
 
