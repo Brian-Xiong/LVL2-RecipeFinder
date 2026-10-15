@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Brian's Recipe Finder - Recipe Details</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <!-- Header -->
+        <header>
+            <h1>Brian's Recipe Finder</h1>
+                    <!-- Search and All Recipes buttons will be wired up in script.js -->
+                    <button class="btn" id="home-button">Home</button>
+                    <input type="text" maxlength="50" id="search-input" placeholder="Enter recipe name or ingredient">
+                    <button id="search-button">Search</button>
+                    <button class="btn" id="all-recipes-button">All Recipes</button>
+        </header>
+    
+        <!-- CREATE PAGE WITH TEST INFORMATION  -->
+         <main>
+            <section class="recipe-details">
+                <h2 id="recipe-name"></h2>
+                <p id="recipe-tags">Recipe tags</p>
+                
+                <!-- Recipe Image will be dynamically added here -->
+                <img id="recipe-image">
+
+                <p id="recipe-description"></p>
+                <h3>Ingredients:</h3>
+                <ul id="ingredients-list">
+                    <!-- Ingredients will be dynamically added here -->
+                </ul>
+                <h3>Instructions:</h3>
+                <p id="instructions">
+                    <!-- Instructions will be dynamically added here -->
+                </p>
+            </section>
+
+
+
+            <!-- Related Recipes -->
+            <section class="related-recipes">
+                <h3>Related Recipes</h3>
+                <ul id="related-recipes-list">
+                    <!-- Related recipes will be dynamically added here -->
+                </ul>
+            </section>
+
+
+            <!-- Recently Viewed Recipes -->
+            <section class="recently-viewed-recipes">
+                <h3>Recently Viewed Recipes</h3>
+                <ul id="recently-viewed-recipes-list">
+                    <!-- Recently viewed recipes will be dynamically added here -->
+                </ul>
+            </section>
+
+
+
+
+            <!-- PROFILE CARD — left column 
+            <aside class="profile-card">-
+                <div class="avatar" id="avatar">AR</div>
+                <h2 id="user-name">Alex Rivera</h2>
+                <p id="user-title">Full Stack Developer</p>
+                <p id="user-location">📍 Austin, TX</p>
+                <span id="status-badge" class="badge active">🟢 Active</span>
+
+                  ✅ STATUS SELECTOR
+                        A <select> dropdown — we'll listen for "change" events. 
+                <div class="field-group">
+                    <label for="status-select">Status:</label>
+                    <select id="status-select">
+                    <option value="active">🟢 Active</option>
+                    <option value="away">🟡 Away</option>
+                    <option value="offline">🔴 Offline</option>
+                    </select>
+                </div>
+            </aside> 
+            -->
+
+
+        </main>
+        <script src="app.js"></script>
+    </body>
+</html>
+
+
