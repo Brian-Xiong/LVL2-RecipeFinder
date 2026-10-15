@@ -89,3 +89,14 @@ header {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+#recipe-image {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+
+    /*
+    display:block;
+    margin-left: auto;
+    */
+}
