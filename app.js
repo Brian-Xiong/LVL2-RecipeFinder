@@ -509,7 +509,7 @@ const testData = {
   ]
 }
 
-fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata");
+fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=Asado");
 
 // fetch the recipe so we can display it on the page
 function fetchRecipe(url) {
@@ -524,6 +524,7 @@ function fetchRecipe(url) {
     // this will run as long as the previous .then() is successful
     .then((recipe) => {
       renderRecipe(recipe.meals[0]); // put the recipe information on the page
+      renderRelated(recipe.meals[0]);
     })
     .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
       const display = document.getElementById("recipe-name");
@@ -539,7 +540,7 @@ function renderRecipe(recipe) {
 
     // Set Recipe Tags
     const recipeTags = document.getElementById("recipe-tags");
-    if (recipeTags === null) {
+    if (recipe.strTags === null) {
         // TODO if recipeTags is null.......do something, IDK what to do yet
         recipeTags.textContent = "Recipe Tags: None"; 
     } else {
@@ -548,17 +549,20 @@ function renderRecipe(recipe) {
 
     // Get Recipe Picture
     const recipeImage = document.getElementById("recipe-image");
-    recipeImage.src = `${recipe.strMealThumb}`;
+    recipeImage.src = recipe.strMealThumb;
 
     // Get Recipe Ingredients
     // loop through the key value pairs and add the values to the ingredientsList
     const ingredientsList = document.getElementById("ingredients-list");
+    ingredientsList.innerHTML = "";
     for (let i = 1; i <= 20; i++) {
         let ingredient = recipe[`strIngredient${i}`];
         if (ingredient === "") {
             break; // if there are no more ingredients, stop looping
         }
 
+
+        // PUT THIS IN A P TAG or PUT THIS IN AN UNORDERED LIST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // concatenate the current ingredient and current measurement together
         ingredient = `- ${recipe[`strMeasure${i}`]} ${ingredient}\n`;
 
@@ -568,31 +572,76 @@ function renderRecipe(recipe) {
 
     // Get Recipe Steps
     const instructions = document.getElementById("instructions"); 
-    instructions.textContent = recipe.strInstructions; // TODO can I clean this to visually look better???????????????????????????
+    instructions.textContent = recipe.strInstructions; 
+
+    // TODO Separate the various instructions styles ( EXAMPLE:  Step 1: Step 2:  &&  Prepare:  &&  /r/n/r/n)
+    // maybe use indexOf to make an array of strings ["Step 1: ", "Step 2: ", ...., "step 10"]
+    // maybe use mock data
+
+
+
+    // separate instruction by colon
+    let stringArray = recipe.strInstructions;
+    createInstructions(stringArray);
+
 }
 
-function renderRelated() {
-  // this function will display up to four recipes that share the most tags with the current recipe on the recipe page (or maybe the first four tags)
-  
+function createInstructions(stringArray) {
+  let colonCount = 0;
+  let stringArrayResult = [];
 
-  // if the recipe does not have tags, then display up to four recipes that share the most ingredients (or maybe share the first 4 ingredients)
-//  const ingredientsList = document.getElementById("ingredients-list"); // get the element containing the ingredients list
-//  console.log(ingredientsList.textContent.trim()); 
+  console.log(colonCount);
+  console.log(stringArray);
+  for (let i = 0; i < stringArray.length; i++) {
+    if (stringArray[i] === ':') {
+      colonCount++;
+      console.log(colonCount);
 
-  // save the current list of ingredients 
-  const ingredients = []; // our list of ingredients that we will use to search for any 
-  for (let i = 1; i <= 20; i++) {
-    let ingredient = current[`strIngredient${i}`];
-    if (ingredient === "") {
-        break; // if there are no more ingredients, stop looping
+      // find the colon, Cut from colon to stringArray[0] for the STEP
+
+
+
+      // find the period, Cut from period to stringArray[0] for the INSTRUCTION
+
+
+
+      // push the object to the array [(STEP: INSTRUCTION) , (STEP: INSTRUCTION), ...]
+
+
     }
-
-    // add the ingredient to our list
-    ingredients.push(ingredient);
   }
+}
 
-  // search our list of recipes with related ingredients (at least four related ingredients)
-  // Wait is this another API call (using our list of ingredients) ?????????????????????????????????????????????????????????????????????????????
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function renderRelated(recipe) {
+  // this function will display up to four recipes that share the most tags with the current recipe on the recipe page (or maybe the first four tags)
+  recipe.strCategory; // there are 14 categories total
+
+
+  
+  // if the recipe does not have tags, then display up to four recipes that share the same category
+
+
+
+  // if the recipe does not have tags, then display up to four recipes that share the same country
+
+
+
 
 
 
@@ -617,12 +666,13 @@ function renderRelated() {
 
 function renderRecentlyViewed() {
 
+    // TODO save the 
 }
 
 
 
 // Recipe Page Function calls
 
-renderRelated()
+//renderRelated()
 
 
