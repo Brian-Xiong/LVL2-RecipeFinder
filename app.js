@@ -524,13 +524,13 @@ function fetchRecipe(url) {
     // this will run as long as the previous .then() is successful
     .then((recipe) => {
       renderRecipe(recipe.meals[0]); // put the recipe information on the page
-      renderRelated(recipe.meals[0]);
+      renderRelated(recipe.meals[0]); // put list of related recipes on the page
     })
     .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
       const display = document.getElementById("recipe-name");
       display.textContent = `There was an error retrieving the recipe: ${error.message}`;
     });
-}
+} // TODO
 
 // Recipe Page functions
 function renderRecipe(recipe) {
@@ -562,7 +562,7 @@ function renderRecipe(recipe) {
         }
 
 
-        // PUT THIS IN A P TAG or PUT THIS IN AN UNORDERED LIST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // PUT THIS IN A P TAG or PUT THIS IN AN UNORDERED LIST (maybe similar to instructions!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // concatenate the current ingredient and current measurement together
         ingredient = `- ${recipe[`strMeasure${i}`]} ${ingredient}\n`;
 
@@ -590,16 +590,16 @@ function createInstructions(stringArray) {
   let colonCount = 0;
   let stringArrayResult = [];
 
-  console.log(colonCount);
-  console.log(stringArray);
+//  console.log(colonCount);
+//  console.log(stringArray);
   for (let i = 0; i < stringArray.length; i++) {
     if (stringArray[i] === ':') {
       colonCount++;
-      console.log(colonCount);
+//      console.log(colonCount);
 
       // find the colon, Cut from colon to stringArray[0] for the STEP
-
-
+      // use split()???
+      
 
       // find the period, Cut from period to stringArray[0] for the INSTRUCTION
 
@@ -610,46 +610,29 @@ function createInstructions(stringArray) {
 
     }
   }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+} // TODO 
 
 function renderRelated(recipe) {
   // this function will display up to four recipes that share the most tags with the current recipe on the recipe page (or maybe the first four tags)
-  recipe.strCategory; // there are 14 categories total
-
-
+  
+  // TODO find recipes with similar tags 
+  
   
   // if the recipe does not have tags, then display up to four recipes that share the same category
+  const recipeListsByCategory = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${recipe.strCategory}}`;
 
+  fetch(recipeListsByCategory)
+  .then((response) => { // ensure we are able to get a response from the API
+    if (!response.ok) { // response.ok checks whether the HTTP status code indicates success (200–299)
+      throw new Error("Couldn't find any related recipes"); // creates an error and rejects the promise chain, skipping the remaining code in this .then() callback
+    }
+    return response.json();
+  })
 
-
-  // if the recipe does not have tags, then display up to four recipes that share the same country
-
-
-
-
-
-
-  // get a list of all related recipes
-
-
+  .then((list) => {
   // randomly find 4 recipes
-
+  console.log("Here is the list of related Recipes: " + recipeListsByCategory);
+  console.log(list);
 
   // display the 4 recipes in the related meals section
 
@@ -660,6 +643,48 @@ function renderRelated(recipe) {
   // card will display recipe name and recipe image
 
 
+
+    
+  })
+  .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
+    const display = document.getElementById("recipe-name");
+    display.textContent = `There was an error retrieving related recipes: ${error.message}`;
+  });
+
+
+
+  // if the recipe does not have tags, then display up to four recipes that share the same country
+  const recipeListsByCountry = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${recipe.strCountry}}`;
+
+  fetch(recipeListsByCountry)
+  .then((response) => { // ensure we are able to get a response from the API
+    if (!response.ok) { // response.ok checks whether the HTTP status code indicates success (200–299)
+      throw new Error("Couldn't find any related recipes"); // creates an error and rejects the promise chain, skipping the remaining code in this .then() callback
+    }
+    return response.json();
+  })
+
+  // this will run as long as the previous .then() is successful
+  .then((recipe) => {
+// randomly find 4 recipes
+
+
+// display the 4 recipes in the related meals section
+
+
+// each recipe will have its own card
+
+
+// card will display recipe name and recipe image
+
+
+
+    
+  })
+  .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
+    const display = document.getElementById("recipe-name");
+    display.textContent = `There was an error retrieving related recipes: ${error.message}`;
+  });
 }
 
 
