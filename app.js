@@ -615,34 +615,30 @@ function createInstructions(stringArray) {
 
 function renderRelated(recipe) {
   // this function will display up to four recipes that share the most tags with the current recipe on the recipe page (or maybe the first four tags)
-  // TODO find recipes with similar tags 
-  
-  
-  // if the recipe does not have tags, then display up to four recipes that share the same category
   const recipeListsByCategory = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${recipe.strCategory}`;
+  const array = [recipe.idMeal]; // this array will hold our references to our current recipe and related recipes.  We will check against this array to ensure we don't find any duplicate recipes
 
   fetch(recipeListsByCategory)
-    .then((response) => { // ensure we are able to get a response from the API
-      if (!response.ok) { // response.ok checks whether the HTTP status code indicates success (200–299)
-        throw new Error("Couldn't find any related recipes"); // creates an error and rejects the promise chain, skipping the remaining code in this .then() callback
+    .then((response) => { 
+      if (!response.ok) { 
+        throw new Error("Couldn't find any related recipes"); 
       }
       return response.json();
     })
     .then((list) => {
-      // randomly find a recipe from our array 
+      // randomly find 4 recipes from our total list of related recipes by category
       for (let i = 0; i < 4; i++) {
         const targetedIndex = Math.floor(Math.random() * list.meals.length); 
 
-        // TODO check to make sure that we don't have any repeat recipe's based on the idMeal
-        // TODO make sure we don't find our current recipe either
-        const relatedRecipesList = document.getElementById("related-recipes-list");
-        // if (relatedRecipesList) {
-
-        // }
-        console.log(relatedRecipesList); // WAIT SHOULDN'T relatedRecipesList be made dynamically?  So each iteration of this console.log would only show an incrementing list instead of all 4 items?
-
-
-        // create a card with the random recipe's information
+        // check to make sure that we don't have any duplicate recipe's based on the propety: idMeal
+        if (array.includes(list.meals[targetedIndex].idMeal)) { 
+          i--; // if there is a duplicate, randomize again and check if this new recipe is in the array again
+          continue;
+        }
+        array.push(list.meals[targetedIndex].idMeal);
+        console.log("New Related Recipe!  " + list.meals[targetedIndex].strMeal); // TEST!  DELETE THIS LATER
+        
+        // create a card and add the random recipe's information
         const listItem = document.createElement("li");
         listItem.className = "related-recipe";
 
@@ -654,6 +650,7 @@ function renderRelated(recipe) {
         `;
 
         // add the recipe name and recipe image to the card
+        const relatedRecipesList = document.getElementById("related-recipes-list");
         relatedRecipesList.appendChild(listItem);
       }
     })
