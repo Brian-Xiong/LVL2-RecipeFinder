@@ -525,13 +525,14 @@ function fetchRecipe(url) {
     .then((recipe) => {
       renderRecipe(recipe.meals[0]); // put the recipe information on the page
       renderRelated(recipe.meals[0]); // put list of related recipes on the page
+      // TODO add renderRecentlyViewed
     })
     .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
       const display = document.getElementById("recipe-name");
       display.textContent = `There was an error retrieving the recipe: ${error.message}`;
     }
   );
-} // TODO
+} // TODO put a list of recently viewed recipes
 
 // Recipe Page functions
 function renderRecipe(recipe) {
@@ -552,7 +553,6 @@ function renderRecipe(recipe) {
     const recipeImage = document.getElementById("recipe-image");
     recipeImage.src = recipe.strMealThumb;
 
-    // Get Recipe Ingredients
     // loop through the key value pairs and add the values to the ingredientsList
     const ingredientsList = document.getElementById("ingredients-list");
     ingredientsList.innerHTML = "";
@@ -561,7 +561,6 @@ function renderRecipe(recipe) {
         if (ingredient === "") {
             break; // if there are no more ingredients, stop looping
         }
-
 
         // PUT THIS IN A P TAG or PUT THIS IN AN UNORDERED LIST (maybe similar to instructions!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         // concatenate the current ingredient and current measurement together
@@ -572,7 +571,7 @@ function renderRecipe(recipe) {
     }
 
     // Get Recipe Steps
-    const instructions = document.getElementById("instructions"); 
+    const instructions = document.getElementById("instructions-list"); 
     instructions.textContent = recipe.strInstructions; 
 
     // TODO Separate the various instructions styles ( EXAMPLE:  Step 1: Step 2:  &&  Prepare:  &&  /r/n/r/n)
@@ -582,35 +581,87 @@ function renderRecipe(recipe) {
 
 
     // separate instruction by colon
-    let stringArray = recipe.strInstructions;
+//    let stringArray = recipe.strInstructions; // UNCOMMENT THIS LATER
+    let stringArray = "Prepare the Fire: Start a wood fire in your grill and let it burn down to coals. Season the Meat: Generously salt the beef cuts.";  // TEST DELETE THIS
     createInstructions(stringArray);
-
 }
 
 function createInstructions(stringArray) {
-  let colonCount = 0;
-  let stringArrayResult = [];
+  let colonCount = 0; // TEST DELETE THIS
+  const colonIndexes = []; // this will hold the indexes of all the colons to slice the string
+  const recipeArray = []; // this will hold our array of objects [(Step, Instruction), (Step, Instruction), ... ]
 
-//  console.log(colonCount);
-//  console.log(stringArray);
+  // get the indexes of all the colons
   for (let i = 0; i < stringArray.length; i++) {
+    // keep track of the indexes of each of the semi-colons
     if (stringArray[i] === ':') {
-      colonCount++;
-//      console.log(colonCount);
-
-      // find the colon, Cut from colon to stringArray[0] for the STEP
-      // use split()???
-      
-
-      // find the period, Cut from period to stringArray[0] for the INSTRUCTION
-
-
-
-      // push the object to the array [(STEP: INSTRUCTION) , (STEP: INSTRUCTION), ...]
-
-
+      colonCount++; // TEST DELETE THIS
+      console.log(colonCount); // TEST DELETE THIS
+      colonIndexes.push(i); // save the index of this semicolon
+      console.log(colonIndexes); // TEST DELETE THIS
     }
   }
+
+  // search through the string and filter the step from the instruction
+  for (let i = 0; i < colonIndexes.length; i++) {
+    let instructionStep = "";
+    let instructionString = "";
+    
+    // this takes care of the case when this is the first iteration, then get the first step
+    if (i === 0) {
+      instructionStep = stringArray.substring(0, colonIndexes[0]); // first step will be from index 0 to the index of the first colon (aka colonIndexes[0])
+      console.log(instructionStep); // DELETE THIS
+
+      instructionString = stringArray.substring(2, colonIndexes[1]); // create a new substring using from index 2 (index 0 and 1 are ": ") to the next semi-colon
+      instructionString = instructionString.substring(colonIndexes[0], instructionString.lastIndexOf(".")); // using this subtring, cut out everything after the last period
+      console.log(instructionString); // DELETE THIS
+    }
+    
+    const step = {
+      step: instructionStep.trim(),
+      instruction: instructionString.trim()
+    };
+
+    recipeArray.push(step);
+    console.log(recipeArray);
+  
+  }
+   
+
+  // substring from index of this semicolon to end of stringarray (stringarray.length?) to find the next semicolon
+  // or substring from this semicolon's index to the next semicolon's index
+  
+
+  // find the colon, Cut from colon to stringArray[0] for the STEP
+  // use slice()??? or split()???
+  
+
+  // find the period, Cut from period to stringArray[0] for the INSTRUCTION
+
+
+
+  // push the object to the array [(STEP: INSTRUCTION) , (STEP: INSTRUCTION), ...]
+
+  //   // create a card and add the random recipe's information
+  //   const listItem = document.createElement("li");
+  //   listItem.className = "related-recipe";
+
+  //   listItem.innerHTML =  `
+  //     <div class="related-recipe-card">
+  //       <span class="related-recipe-name">${list.meals[targetedIndex].strMeal}</span>
+  //     </div>
+  //     <img id="related-recipe-image" src = ${list.meals[targetedIndex].strMealThumb}></img>
+  //   `;
+
+  //   // add the recipe name and recipe image to the card
+  //   const relatedRecipesList = document.getElementById("related-recipes-list");
+  //   relatedRecipesList.appendChild(listItem);
+
+  //   // add the instruction to the instruction list
+  //   const instructionsList = document.getElementById("instructions-list");
+  //   instructionsList.appendChild(listItem);
+  
+
 } // TODO 
 
 function renderRelated(recipe) {
@@ -636,8 +687,7 @@ function renderRelated(recipe) {
           continue;
         }
         array.push(list.meals[targetedIndex].idMeal);
-        console.log("New Related Recipe!  " + list.meals[targetedIndex].strMeal); // TEST!  DELETE THIS LATER
-        
+
         // create a card and add the random recipe's information
         const listItem = document.createElement("li");
         listItem.className = "related-recipe";
