@@ -581,24 +581,22 @@ function renderRecipe(recipe) {
 
 
     // separate instruction by colon
-//    let stringArray = recipe.strInstructions; // UNCOMMENT THIS LATER
-    let stringArray = "Prepare the Fire: Start a wood fire in your grill and let it burn down to coals. Season the Meat: Generously salt the beef cuts.";  // TEST DELETE THIS
+    let stringArray = recipe.strInstructions; // UNCOMMENT THIS LATER
+//    let stringArray = "Prepare the Fire: Start a wood fire in your grill and let it burn down to coals. TEST: PLEASE WORK. Season the Meat: Generously salt the beef cuts. Grill the Meat: Place the beef on the grill, starting with the thickest cuts farthest from the coals. Add chorizo and morcilla after the beef has been cooking for a while.";  // TEST DELETE THIS
     createInstructions(stringArray);
 }
 
 function createInstructions(stringArray) {
   let colonCount = 0; // TEST DELETE THIS
   const colonIndexes = []; // this will hold the indexes of all the colons to slice the string
+  const periodIndexes = []; // this will hold the indexes of all the periods right before a semi-colon appears
   const recipeArray = []; // this will hold our array of objects [(Step, Instruction), (Step, Instruction), ... ]
 
   // get the indexes of all the colons
   for (let i = 0; i < stringArray.length; i++) {
-    // keep track of the indexes of each of the semi-colons
+    // keep track of the indexes of each of the semi-colons so that we can split the steps in the recipe 
     if (stringArray[i] === ':') {
-      colonCount++; // TEST DELETE THIS
-      console.log(colonCount); // TEST DELETE THIS
-      colonIndexes.push(i); // save the index of this semicolon
-      console.log(colonIndexes); // TEST DELETE THIS
+      colonIndexes.push(i);
     }
   }
 
@@ -607,42 +605,38 @@ function createInstructions(stringArray) {
     let instructionStep = "";
     let instructionString = "";
     
-    // this takes care of the case when this is the first iteration, then get the first step
+    // this if statement takes care of the case when this is the first iteration, then get the first step
     if (i === 0) {
       instructionStep = stringArray.substring(0, colonIndexes[0]); // first step will be from index 0 to the index of the first colon (aka colonIndexes[0])
-      console.log(instructionStep); // DELETE THIS
+
+      // get the index of the last period for our current step, so that the next step knows where to start
+      const lastPeriod = stringArray.substring(0, colonIndexes[i + 1]);
+      periodIndexes.push(lastPeriod.lastIndexOf(".") - 1); 
 
       instructionString = stringArray.substring(2, colonIndexes[1]); // create a new substring using from index 2 (index 0 and 1 are ": ") to the next semi-colon
       instructionString = instructionString.substring(colonIndexes[0], instructionString.lastIndexOf(".")); // using this subtring, cut out everything after the last period
-      console.log(instructionString); // DELETE THIS
+    } else {
+      instructionStep = stringArray.substring(periodIndexes[i-1] + 3, colonIndexes[i]); // next step will be from the previous period to the next semi-colon (use +3 because we want the index after ".  ")
+
+      // get the index of the last period for our current step, so that the next step knows where to start      
+      const lastPeriod = stringArray.substring(0, colonIndexes[i + 1]);
+      periodIndexes.push(lastPeriod.lastIndexOf(".") - 1); // get the index of the last period for this step, so that we have an anchor point for the next step
+
+      instructionString = stringArray.substring(colonIndexes[i], colonIndexes[i+1]); // create a new substring  to the next semi-colon
+      instructionString = instructionString.substring(1, instructionString.lastIndexOf(".")); // start from index 1 (index 0 is ":") and cut out everything after the last period
     }
-    
+
     const step = {
       step: instructionStep.trim(),
       instruction: instructionString.trim()
     };
 
     recipeArray.push(step);
-    console.log(recipeArray);
-  
+    console.log(recipeArray); // DELETE THIS  
   }
    
 
-  // substring from index of this semicolon to end of stringarray (stringarray.length?) to find the next semicolon
-  // or substring from this semicolon's index to the next semicolon's index
-  
-
-  // find the colon, Cut from colon to stringArray[0] for the STEP
-  // use slice()??? or split()???
-  
-
-  // find the period, Cut from period to stringArray[0] for the INSTRUCTION
-
-
-
-  // push the object to the array [(STEP: INSTRUCTION) , (STEP: INSTRUCTION), ...]
-
-  //   // create a card and add the random recipe's information
+  //   // create a card and add the recipe's instructions
   //   const listItem = document.createElement("li");
   //   listItem.className = "related-recipe";
 
@@ -662,7 +656,7 @@ function createInstructions(stringArray) {
   //   instructionsList.appendChild(listItem);
   
 
-} // TODO 
+} 
 
 function renderRelated(recipe) {
   // this function will display up to four recipes that share the most tags with the current recipe on the recipe page (or maybe the first four tags)
