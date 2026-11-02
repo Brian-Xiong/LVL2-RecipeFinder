@@ -524,7 +524,7 @@ function fetchRecipe(url) {
     // this will run as long as the previous .then() is successful
     .then((recipe) => {
       renderRecipe(recipe.meals[0]); // put the recipe information on the page
-      renderRelated(recipe.meals[0]); // put list of related recipes on the page
+      renderRecommended(recipe.meals[0]); // put list of recommended recipes on the page
       // TODO add renderRecentlyViewed
     })
     .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
@@ -536,39 +536,25 @@ function fetchRecipe(url) {
 
 // Recipe Page functions
 function renderRecipe(recipe) {
-    // Set Recipe Name
-    const recipeName = document.getElementById("recipe-name");
-    recipeName.textContent = recipe.strMeal;
+  // Set Recipe Name
+  const recipeName = document.getElementById("recipe-name");
+  recipeName.textContent = recipe.strMeal;
 
-    // Set Recipe Tags
-    const recipeTags = document.getElementById("recipe-tags");
-    if (recipe.strTags === null) {
-        // TODO if recipeTags is null.......do something, IDK what to do yet
-        recipeTags.textContent = "Recipe Tags: None"; 
-    } else {
-        recipeTags.textContent = "Recipe Tags: " + recipe.strTags; // I could put a space in between each ,
-    }
+  // Set Recipe Tags
+  const recipeTags = document.getElementById("recipe-tags");
+  if (recipe.strTags === null) {
+      // TODO if recipeTags is null.......do something, IDK what to do yet
+      recipeTags.textContent = "Recipe Tags: None"; 
+  } else {
+      recipeTags.textContent = "Recipe Tags: " + recipe.strTags; // I could put a space in between each ,
+  }
 
-    // Get Recipe Picture
-    const recipeImage = document.getElementById("recipe-image");
-    recipeImage.src = recipe.strMealThumb;
+  // Get Recipe Picture
+  const recipeImage = document.getElementById("recipe-image");
+  recipeImage.src = recipe.strMealThumb;
 
-    // loop through the key value pairs and add the values to the ingredientsList
-    const ingredientsList = document.getElementById("ingredients-list");
-    ingredientsList.innerHTML = "";
-    for (let i = 1; i <= 20; i++) {
-        let ingredient = recipe[`strIngredient${i}`];
-        if (ingredient === "") {
-            break; // if there are no more ingredients, stop looping
-        }
-
-        // PUT THIS IN A P TAG or PUT THIS IN AN UNORDERED LIST (maybe similar to instructions!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // concatenate the current ingredient and current measurement together
-        ingredient = `- ${recipe[`strMeasure${i}`]} ${ingredient}\n`;
-
-        // add the ingredient WITH its measurement to the page
-        ingredientsList.append(ingredient);
-    }
+  // loop through the key value pairs and add the values to the ingredientsList
+  createIngredients(recipe);
 
     // Get Recipe Steps
 //    const instructions = document.getElementById("instructions-list");  // DELETE THIS
@@ -580,17 +566,40 @@ function renderRecipe(recipe) {
 
 
 
-    // separate instruction by colon
-    let stringArray = recipe.strInstructions; // UNCOMMENT THIS LATER
-//    let stringArray = "Prepare the Fire: Start a wood fire in your grill and let it burn down to coals. TEST: PLEASE WORK. Season the Meat: Generously salt the beef cuts. Grill the Meat: Place the beef on the grill, starting with the thickest cuts farthest from the coals. Add chorizo and morcilla after the beef has been cooking for a while.";  // TEST DELETE THIS
+    // separate instruction if it is organized by colon
+    // TODO separate instruction if it is organized by numbers
+    let stringArray = recipe.strInstructions; 
     createInstructions(stringArray);
 }
 
+function createIngredients(recipe) {
+  const ingredientsList = document.getElementById("ingredients-list");
+  ingredientsList.innerHTML = "";
+  for (let i = 1; i <= 20; i++) {
+    let ingredient = recipe[`strIngredient${i}`];
+    if (ingredient === "") {
+        break; // if there are no more ingredients, stop looping
+    }
+
+    // PUT THIS IN A P TAG or PUT THIS IN AN UNORDERED LIST (maybe similar to instructions!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // concatenate the current ingredient and current measurement together
+    ingredient = `${recipe[`strMeasure${i}`]} ${ingredient}`;
+    
+    const listItem = document.createElement("li");
+    listItem.className = "recipe-ingredient";
+    listItem.textContent = ingredient;
+
+    // add the ingredient WITH its measurement to the page
+    ingredientsList.appendChild(listItem);
+  }
+} // TODO check for the case when there are a lot of ingredients and the list is too long for the page.  up to 20 ingredients total...so maybe have 4 columns of ingredients with 5 ingredients in each column.
+
 function createInstructions(stringArray) {
-  let colonCount = 0; // TEST DELETE THIS
   const colonIndexes = []; // this will hold the indexes of all the colons to slice the string
   const periodIndexes = []; // this will hold the indexes of all the periods right before a semi-colon appears
   const recipeArray = []; // this will hold our array of objects [(Step, Instruction), (Step, Instruction), ... ]
+  const instructionsList = document.getElementById("instructions-list");
+  instructionsList.innerHTML = ""; 
 
   // get the indexes of all the colons
   for (let i = 0; i < stringArray.length; i++) {
@@ -632,7 +641,6 @@ function createInstructions(stringArray) {
     };
 
     recipeArray.push(step);
-    console.log(recipeArray); // DELETE THIS  
   }
    
   for (let i = 0; i < recipeArray.length; i++) {
@@ -646,13 +654,12 @@ function createInstructions(stringArray) {
         <br>
     `; // TODO style the recipe step and instruction to look like a card
 
-    // 
-    const instructionsList = document.getElementById("instructions-list");
+    // add the recipe step and instruction to the page
     instructionsList.appendChild(listItem);
   }
-} 
+} // TODO check for the case when the instruction steps are in organized by numbers instead
 
-function renderRelated(recipe) {
+function renderRecommended(recipe) {
   // this function will display up to four recipes that share the most tags with the current recipe on the recipe page (or maybe the first four tags)
   const recipeListsByCategory = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${recipe.strCategory}`;
   const array = [recipe.idMeal]; // this array will hold our references to our current recipe and related recipes.  We will check against this array to ensure we don't find any duplicate recipes
@@ -660,12 +667,12 @@ function renderRelated(recipe) {
   fetch(recipeListsByCategory)
     .then((response) => { 
       if (!response.ok) { 
-        throw new Error("Couldn't find any related recipes"); 
+        throw new Error("Couldn't find any recommended recipes"); 
       }
       return response.json();
     })
     .then((list) => {
-      // randomly find 4 recipes from our total list of related recipes by category
+      // randomly find 4 recipes from our total list of recommended recipes by category
       for (let i = 0; i < 4; i++) {
         const targetedIndex = Math.floor(Math.random() * list.meals.length); 
 
@@ -678,38 +685,34 @@ function renderRelated(recipe) {
 
         // create a card and add the random recipe's information
         const listItem = document.createElement("li");
-        listItem.className = "related-recipe";
+        listItem.className = "recommended-recipe";
 
         listItem.innerHTML =  `
-          <div class="related-recipe-card">
-            <span class="related-recipe-name">${list.meals[targetedIndex].strMeal}</span>
+          <div class="recommended-recipe-card">
+            <span class="recommended-recipe-name">${list.meals[targetedIndex].strMeal}</span>
           </div>
-          <img id="related-recipe-image" src = ${list.meals[targetedIndex].strMealThumb}></img>
+          <img id="recommended-recipe-image" src = ${list.meals[targetedIndex].strMealThumb}></img>
         `;
 
         // add the recipe name and recipe image to the card
-        const relatedRecipesList = document.getElementById("related-recipes-list");
-        relatedRecipesList.appendChild(listItem);
+        const recommendedRecipesList = document.getElementById("recommended-recipes-list");
+        recommendedRecipesList.appendChild(listItem);
       }
     })
     .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
-      const display = document.getElementById("related-recipes");
-      display.textContent = `There was an error retrieving related recipes: ${error.message}`;
+      const display = document.getElementById("recommended-recipes");
+      display.textContent = `There was an error retrieving recommended recipes: ${error.message}`;
     }
   );
-}
+} // TODO add On-Click functionality to pull up that clicked recipe.  AND save this recipe to local storage for the recently viewed list
 
 
 
 function renderRecentlyViewed() {
 
-    // TODO save the 
-}
+    
+}  // TODO save the last 4 recently viewed recipes to local storage and display them on the page.  
 
 
-
-// Recipe Page Function calls
-
-//renderRelated()
 
 

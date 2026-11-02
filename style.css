@@ -71,7 +71,9 @@ header {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.related-recipes {
+/* Enlarge and underline the ingredients and insructions */
+
+.recommended-recipes {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
@@ -99,7 +101,8 @@ header {
     display:block;
     margin-left: auto;
     */
-}
+
+} /* TODO right align the image to the right of the recipe name and description.  */
 
 .recipe-step {
   font-weight: bold;
