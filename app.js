@@ -571,8 +571,8 @@ function renderRecipe(recipe) {
     }
 
     // Get Recipe Steps
-    const instructions = document.getElementById("instructions-list"); 
-    instructions.textContent = recipe.strInstructions; 
+//    const instructions = document.getElementById("instructions-list");  // DELETE THIS
+//    instructions.textContent = recipe.strInstructions;  // DELETE THIS
 
     // TODO Separate the various instructions styles ( EXAMPLE:  Step 1: Step 2:  &&  Prepare:  &&  /r/n/r/n)
     // maybe use indexOf to make an array of strings ["Step 1: ", "Step 2: ", ...., "step 10"]
@@ -635,27 +635,22 @@ function createInstructions(stringArray) {
     console.log(recipeArray); // DELETE THIS  
   }
    
+  for (let i = 0; i < recipeArray.length; i++) {
+   // create a card and add the recipe's step and instruction
+    const listItem = document.createElement("li");
+    listItem.className = "recipe-instructions";
 
-  //   // create a card and add the recipe's instructions
-  //   const listItem = document.createElement("li");
-  //   listItem.className = "related-recipe";
+    listItem.innerHTML =  `
+      <div class="recipe-instruction-${i}">
+        <span class="recipe-step">${recipeArray[i].step}</span>
+        <p class="recipe-instruction">${recipeArray[i].instruction}</p>
+      </div>
+    `;
 
-  //   listItem.innerHTML =  `
-  //     <div class="related-recipe-card">
-  //       <span class="related-recipe-name">${list.meals[targetedIndex].strMeal}</span>
-  //     </div>
-  //     <img id="related-recipe-image" src = ${list.meals[targetedIndex].strMealThumb}></img>
-  //   `;
-
-  //   // add the recipe name and recipe image to the card
-  //   const relatedRecipesList = document.getElementById("related-recipes-list");
-  //   relatedRecipesList.appendChild(listItem);
-
-  //   // add the instruction to the instruction list
-  //   const instructionsList = document.getElementById("instructions-list");
-  //   instructionsList.appendChild(listItem);
-  
-
+    // 
+    const instructionsList = document.getElementById("instructions-list");
+    instructionsList.appendChild(listItem);
+  }
 } 
 
 function renderRelated(recipe) {
