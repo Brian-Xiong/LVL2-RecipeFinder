@@ -641,11 +641,10 @@ function createInstructions(stringArray) {
     listItem.className = "recipe-instructions";
 
     listItem.innerHTML =  `
-      <div class="recipe-instruction-${i}">
-        <span class="recipe-step">${recipeArray[i].step}</span>
+        <p class="recipe-step" >${recipeArray[i].step}</p>
         <p class="recipe-instruction">${recipeArray[i].instruction}</p>
-      </div>
-    `;
+        <br>
+    `; // TODO style the recipe step and instruction to look like a card
 
     // 
     const instructionsList = document.getElementById("instructions-list");
