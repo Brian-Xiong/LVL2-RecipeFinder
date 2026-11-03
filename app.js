@@ -570,7 +570,7 @@ function renderRecipe(recipe) {
     // TODO separate instruction if it is organized by numbers
     let stringArray = recipe.strInstructions; 
     createInstructions(stringArray);
-}
+} // TODO add renderRecentlyViewed
 
 function createIngredients(recipe) {
   const ingredientsList = document.getElementById("ingredients-list");
@@ -581,7 +581,6 @@ function createIngredients(recipe) {
         break; // if there are no more ingredients, stop looping
     }
 
-    // PUT THIS IN A P TAG or PUT THIS IN AN UNORDERED LIST (maybe similar to instructions!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // concatenate the current ingredient and current measurement together
     ingredient = `${recipe[`strMeasure${i}`]} ${ingredient}`;
     
@@ -592,7 +591,7 @@ function createIngredients(recipe) {
     // add the ingredient WITH its measurement to the page
     ingredientsList.appendChild(listItem);
   }
-} // TODO check for the case when there are a lot of ingredients and the list is too long for the page.  up to 20 ingredients total...so maybe have 4 columns of ingredients with 5 ingredients in each column.
+} // TODO check for the case when there are a lot of ingredients and the list is too long for the page.  Up to 20 ingredients total...so maybe have 4 columns of ingredients with 5 ingredients in each column.
 
 function createInstructions(stringArray) {
   const colonIndexes = []; // this will hold the indexes of all the colons to slice the string
@@ -660,7 +659,7 @@ function createInstructions(stringArray) {
 } // TODO check for the case when the instruction steps are in organized by numbers instead
 
 function renderRecommended(recipe) {
-  // this function will display up to four recipes that share the most tags with the current recipe on the recipe page (or maybe the first four tags)
+  // this function will display up to four recipes that share the same category
   const recipeListsByCategory = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${recipe.strCategory}`;
   const array = [recipe.idMeal]; // this array will hold our references to our current recipe and related recipes.  We will check against this array to ensure we don't find any duplicate recipes
 
@@ -673,6 +672,9 @@ function renderRecommended(recipe) {
     })
     .then((list) => {
       // randomly find 4 recipes from our total list of recommended recipes by category
+      const recommendedRecipesList = document.getElementById("recommended-recipes-list");
+      recommendedRecipesList.innerHTML = "";
+
       for (let i = 0; i < 4; i++) {
         const targetedIndex = Math.floor(Math.random() * list.meals.length); 
 
@@ -686,6 +688,9 @@ function renderRecommended(recipe) {
         // create a card and add the random recipe's information
         const listItem = document.createElement("li");
         listItem.className = "recommended-recipe";
+        listItem.id = "recommended-recipe";
+        listItem.addEventListener("click", recommendedRecipeClick);
+
 
         listItem.innerHTML =  `
           <div class="recommended-recipe-card">
@@ -694,8 +699,8 @@ function renderRecommended(recipe) {
           <img id="recommended-recipe-image" src = ${list.meals[targetedIndex].strMealThumb}></img>
         `;
 
+
         // add the recipe name and recipe image to the card
-        const recommendedRecipesList = document.getElementById("recommended-recipes-list");
         recommendedRecipesList.appendChild(listItem);
       }
     })
@@ -706,7 +711,12 @@ function renderRecommended(recipe) {
   );
 } // TODO add On-Click functionality to pull up that clicked recipe.  AND save this recipe to local storage for the recently viewed list
 
+function recommendedRecipeClick(event) {
+  console.log(event.currentTarget.querySelector(".recommended-recipe-name").textContent);
+  const recipeName = event.currentTarget.querySelector(".recommended-recipe-name").textContent;
+  fetchRecipe(`https://www.themealdb.com/api/json/v1/1/search.php?s=${recipeName}`);
 
+}
 
 function renderRecentlyViewed() {
 
@@ -715,4 +725,20 @@ function renderRecentlyViewed() {
 
 
 
+
+
+
+// TODO add a contact form for the user to contact me
+
+// TODO use media queries to make the recipe page responsive for mobile devices
+
+// TODO what do I do for these recipe because the instructions are not organized by colons or numbers.  
+// I will have to figure out a way to separate the steps and instructions for this recipe.  
+// Maybe I can use the indexOf() method to find the indexes of the periods and then use those indexes to slice the string into an array of strings.  
+// Then I can loop through the array and create a card for each step and instruction.  
+// Beef Bourguinon
+// Pate Chinois
+// Big Mac
+
+// ^ Maybe I can just cut by periods
 
