@@ -509,7 +509,7 @@ const testData = {
   ]
 }
 
-fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=Asado");
+fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=Asado"); // DELETE THIS.  REPLACE THIS WITH THE RECIPE NAME FROM THE URL PARAMETER
 
 // fetch the recipe so we can display it on the page
 function fetchRecipe(url) {
@@ -694,9 +694,9 @@ function renderRecommended(recipe) {
 
         listItem.innerHTML =  `
           <div class="recommended-recipe-card">
-            <span class="recommended-recipe-name">${list.meals[targetedIndex].strMeal}</span>
+            <h4 class="recommended-recipe-name">${list.meals[targetedIndex].strMeal}</h4>
+            <img id="recommended-recipe-image" src = ${list.meals[targetedIndex].strMealThumb}>
           </div>
-          <img id="recommended-recipe-image" src = ${list.meals[targetedIndex].strMealThumb}></img>
         `;
 
 
@@ -739,6 +739,11 @@ function renderRecentlyViewed() {
 // Beef Bourguinon
 // Pate Chinois
 // Big Mac
+// Red Peas Soup
+// Satee
 
 // ^ Maybe I can just cut by periods
+
+// the ingredients for "Beef stroganoff" are null for some reason
+
 
