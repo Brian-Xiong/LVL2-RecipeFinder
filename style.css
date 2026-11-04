@@ -69,6 +69,16 @@ header {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative; 
+}
+
+.recipe-details #recipe-image {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 400px;
+    height: 400px;
+    object-fit: contain;
 }
 
 /* Enlarge and underline the ingredients and insructions */

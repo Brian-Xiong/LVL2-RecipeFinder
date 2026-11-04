@@ -542,7 +542,7 @@ function renderRecipe(recipe) {
 
   // Set Recipe Tags
   const recipeTags = document.getElementById("recipe-tags");
-  if (recipe.strTags === null) {
+  if (recipe.strTags === null || recipe.strTags === "") {
       // TODO if recipeTags is null.......do something, IDK what to do yet
       recipeTags.textContent = "Recipe Tags: None"; 
   } else {
@@ -741,6 +741,12 @@ function renderRecentlyViewed() {
 // Big Mac
 // Red Peas Soup
 // Satee
+
+// These instructions are separated by periods:
+// Beef and Mustard Pie 
+// Oxtail with broad beans
+
+
 
 // ^ Maybe I can just cut by periods
 
