@@ -511,6 +511,8 @@ const testData = {
 
 fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=Asado"); // DELETE THIS.  REPLACE THIS WITH THE RECIPE NAME FROM THE URL PARAMETER
 
+let recentlyViewedArray = [];
+
 // fetch the recipe so we can display it on the page
 function fetchRecipe(url) {
   fetch(url)
@@ -525,7 +527,10 @@ function fetchRecipe(url) {
     .then((recipe) => {
       renderRecipe(recipe.meals[0]); // put the recipe information on the page
       renderRecommended(recipe.meals[0]); // put list of recommended recipes on the page
-      // TODO add renderRecentlyViewed
+//      renderRecentlyViewed(); // put list of recently viewed recipes on the page
+      saveRecipe(recipe.meals[0].idMeal);; // Save this recipe to local storage so we can later display it on the recently viewed list
+
+
     })
     .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
       const display = document.getElementById("recipe-name");
@@ -719,12 +724,56 @@ function recommendedRecipeClick(event) {
 }
 
 function renderRecentlyViewed() {
+  // Save to local storage
+  const recentlyViewed = JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+  const recentlyViewedContainer = document.getElementById("recently-viewed-recipes");
 
-    
+  // Clear the container
+  recentlyViewedContainer.innerHTML = "";
+
+  // Display the last 4 viewed recipes
+  recentlyViewed.slice(-4).forEach((recipe) => {
+    const listItem = document.createElement("li");
+    listItem.className = "recently-viewed-recipe";
+    listItem.innerHTML = `
+      <h4>${recipe.name}</h4>
+      <img src="${recipe.image}" alt="${recipe.name}">
+    `;
+    recentlyViewedContainer.appendChild(listItem);
+  });
+
+/////////////////////// My code
+
+//
+
+// pull from local storage and display the last 4 recently viewed recipes on the page
+
+// TODO wait how do i save only 4 recipes??
+
+// use array.push() to put the recipes into an array with length === 4
+
+// if the array length is greater than 4,  use array.shift() to remove the first element 
+
+
+
+
 }  // TODO save the last 4 recently viewed recipes to local storage and display them on the page.  
 
 
+function saveRecipe(idMeal) {
+  // Save this recipe to local storage so we can later display it on the recently viewed list
+  recentlyViewedArray.push(idMeal);
 
+  if (recentlyViewedArray.length > 4) {
+    recentlyViewedArray.shift(); // remove the first element if the array length is greater than 4
+  } 
+
+  // Save the updated array
+  localStorage.setItem("recentlyViewed", JSON.stringify(recentlyViewedArray));
+
+  console.log("Here is the recently viewed array:"); // DELETE THIS
+  console.log(recentlyViewedArray); // DELETE THIS
+}
 
 
 
