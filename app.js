@@ -527,17 +527,15 @@ function fetchRecipe(url) {
     .then((recipe) => {
       renderRecipe(recipe.meals[0]); // put the recipe information on the page
       renderRecommended(recipe.meals[0]); // put list of recommended recipes on the page
-//      renderRecentlyViewed(); // put list of recently viewed recipes on the page
+      renderRecentlyViewed(recipe.meals[0]); // put list of recently viewed recipes on the page
       saveRecipe(recipe.meals[0].idMeal);; // Save this recipe to local storage so we can later display it on the recently viewed list
-
-
     })
     .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
       const display = document.getElementById("recipe-name");
       display.textContent = `There was an error retrieving the recipe: ${error.message}`;
     }
   );
-} // TODO put a list of recently viewed recipes
+} 
 
 // Recipe Page functions
 function renderRecipe(recipe) {
@@ -575,7 +573,7 @@ function renderRecipe(recipe) {
     // TODO separate instruction if it is organized by numbers
     let stringArray = recipe.strInstructions; 
     createInstructions(stringArray);
-} // TODO add renderRecentlyViewed
+} // Any TODO's?
 
 function createIngredients(recipe) {
   const ingredientsList = document.getElementById("ingredients-list");
@@ -696,14 +694,12 @@ function renderRecommended(recipe) {
         listItem.id = "recommended-recipe";
         listItem.addEventListener("click", recommendedRecipeClick);
 
-
         listItem.innerHTML =  `
           <div class="recommended-recipe-card">
             <h4 class="recommended-recipe-name">${list.meals[targetedIndex].strMeal}</h4>
             <img id="recommended-recipe-image" src = ${list.meals[targetedIndex].strMealThumb}>
           </div>
         `;
-
 
         // add the recipe name and recipe image to the card
         recommendedRecipesList.appendChild(listItem);
@@ -717,46 +713,58 @@ function renderRecommended(recipe) {
 } // TODO add On-Click functionality to pull up that clicked recipe.  AND save this recipe to local storage for the recently viewed list
 
 function recommendedRecipeClick(event) {
-  console.log(event.currentTarget.querySelector(".recommended-recipe-name").textContent);
   const recipeName = event.currentTarget.querySelector(".recommended-recipe-name").textContent;
   fetchRecipe(`https://www.themealdb.com/api/json/v1/1/search.php?s=${recipeName}`);
-
 }
 
-function renderRecentlyViewed() {
-  // Save to local storage
-  const recentlyViewed = JSON.parse(localStorage.getItem("recentlyViewed")) || [];
-  const recentlyViewedContainer = document.getElementById("recently-viewed-recipes");
+function recentlyViewedRecipeClick(event) {
+  const recipeName = event.currentTarget.querySelector(".recently-viewed-recipe-name").textContent;
+  fetchRecipe(`https://www.themealdb.com/api/json/v1/1/search.php?s=${recipeName}`);
+}
 
-  // Clear the container
-  recentlyViewedContainer.innerHTML = "";
+function renderRecentlyViewed(currentRecipe) {
+  if (recentlyViewedArray.length === 0 ) {
+    return; // don't need to update the section if there are no recently viewed recipes, or if the current recipe is already in the recently viewed list
+  }
 
-  // Display the last 4 viewed recipes
-  recentlyViewed.slice(-4).forEach((recipe) => {
-    const listItem = document.createElement("li");
-    listItem.className = "recently-viewed-recipe";
-    listItem.innerHTML = `
-      <h4>${recipe.name}</h4>
-      <img src="${recipe.image}" alt="${recipe.name}">
-    `;
-    recentlyViewedContainer.appendChild(listItem);
-  });
+  // otherwise display the recently viewed recipes on the page
+  const recentlyViewed = document.getElementById("recently-viewed-recipes-list");
+  recentlyViewed.innerHTML = "";
 
-/////////////////////// My code
+  for (let i = 0; i < recentlyViewedArray.length; i++) {
+    // get the recipe information from the API for each of the recipes
+    const recipeUrl = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recentlyViewedArray[i]}`;
 
-//
+    fetch(recipeUrl)
+      .then((response) => { 
+        if (!response.ok) { 
+          throw new Error("Couldn't find any recently viewed recipes"); 
+        }
+        return response.json();
+      })
+      .then((recipe) => {
+        // create a card and add the recipe's information
+        const listItem = document.createElement("li");
+        listItem.className = "recently-viewed-recipe";
+        listItem.id = "recently-viewed-recipe";
+        listItem.addEventListener("click", recentlyViewedRecipeClick); // add an event listener to the card so that when it is clicked, we can pull up that recipe
 
-// pull from local storage and display the last 4 recently viewed recipes on the page
+        listItem.innerHTML =  `
+          <div class="recently-viewed-recipe-card">
+            <h4 class="recently-viewed-recipe-name">${recipe.meals[0].strMeal}</h4>
+            <img id="recently-viewed-recipe-image" src = ${recipe.meals[0].strMealThumb}>
+          </div>
+        `;
 
-// TODO wait how do i save only 4 recipes??
-
-// use array.push() to put the recipes into an array with length === 4
-
-// if the array length is greater than 4,  use array.shift() to remove the first element 
-
-
-
-
+        // add the recipe name and recipe image to the card
+        recentlyViewed.appendChild(listItem);
+      })
+      .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
+        const display = document.getElementById("recently-viewed-recipes");
+        display.textContent = `There was an error retrieving recently viewed recipes: ${error.message}`;
+      }
+    ); 
+  }
 }  // TODO save the last 4 recently viewed recipes to local storage and display them on the page.  
 
 
@@ -768,11 +776,8 @@ function saveRecipe(idMeal) {
     recentlyViewedArray.shift(); // remove the first element if the array length is greater than 4
   } 
 
-  // Save the updated array
+  // Save the updated array to local storage
   localStorage.setItem("recentlyViewed", JSON.stringify(recentlyViewedArray));
-
-  console.log("Here is the recently viewed array:"); // DELETE THIS
-  console.log(recentlyViewedArray); // DELETE THIS
 }
 
 
@@ -795,7 +800,9 @@ function saveRecipe(idMeal) {
 // Beef and Mustard Pie 
 // Oxtail with broad beans
 
-
+// These instructions are separated by: \r\n
+// Mulukhiyah
+// Beef_Banh_mi <- this recipe has a lot of \r\n\r\n\r\n
 
 // ^ Maybe I can just cut by periods
 
