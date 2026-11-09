@@ -1,7 +1,7 @@
 // This is the data I get from: https://www.themealdb.com/api/json/v1/1/search.php?f=a
 // it is a JSON Object
 
-fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=Asado"); // DELETE THIS.  REPLACE THIS WITH THE RECIPE NAME FROM THE URL PARAMETER
+fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=Pate%20Chinois"); // DELETE THIS.  TODO REPLACE THIS WITH THE RECIPE NAME FROM THE URL PARAMETER
 
 let recentlyViewedArray = [];
 
@@ -29,7 +29,6 @@ function fetchRecipe(url) {
   );
 } 
 
-// Recipe Page functions
 function renderRecipe(recipe) {
   // Set Recipe Name
   const recipeName = document.getElementById("recipe-name");
@@ -95,48 +94,69 @@ function createInstructions(stringArray) {
   const instructionsList = document.getElementById("instructions-list");
   instructionsList.innerHTML = ""; 
 
-  // get the indexes of all the colons
-  for (let i = 0; i < stringArray.length; i++) {
-    // keep track of the indexes of each of the semi-colons so that we can split the steps in the recipe 
-    if (stringArray[i] === ':') {
-      colonIndexes.push(i);
+
+  if (stringArray.includes(":")) {
+    // if the step and instruction are separated by a semicolon then get the indexes of all the colons
+    for (let i = 0; i < stringArray.length; i++) {
+      // keep track of the indexes of each of the semi-colons so that we can split the steps in the recipe 
+      if (stringArray[i] === ':') {
+        colonIndexes.push(i);
+      }
+   }
+
+    // search through the string and filter the step from the instruction
+    for (let i = 0; i < colonIndexes.length; i++) {
+      let instructionStep = "";
+      let instructionString = "";
+      
+      // this if statement takes care of the case when this is the first iteration, then get the first step
+      if (i === 0) {
+        instructionStep = stringArray.substring(0, colonIndexes[0]); // first step will be from index 0 to the index of the first colon (aka colonIndexes[0])
+
+        // get the index of the last period for our current step, so that the next step knows where to start
+        const lastPeriod = stringArray.substring(0, colonIndexes[i + 1]);
+        periodIndexes.push(lastPeriod.lastIndexOf(".") - 1); 
+
+        instructionString = stringArray.substring(2, colonIndexes[1]); // create a new substring using from index 2 (index 0 and 1 are ": ") to the next semi-colon
+        instructionString = instructionString.substring(colonIndexes[0], instructionString.lastIndexOf(".")); // using this subtring, cut out everything after the last period
+      } else {
+        instructionStep = stringArray.substring(periodIndexes[i-1] + 3, colonIndexes[i]); // next step will be from the previous period to the next semi-colon (use +3 because we want the index after ".  ")
+
+        // get the index of the last period for our current step, so that the next step knows where to start      
+        const lastPeriod = stringArray.substring(0, colonIndexes[i + 1]);
+        periodIndexes.push(lastPeriod.lastIndexOf(".") - 1); // get the index of the last period for this step, so that we have an anchor point for the next step
+
+        instructionString = stringArray.substring(colonIndexes[i], colonIndexes[i+1]); // create a new substring  to the next semi-colon
+        instructionString = instructionString.substring(1, instructionString.lastIndexOf(".")); // start from index 1 (index 0 is ":") and cut out everything after the last period
+      }
+
+      const step = {
+        step: instructionStep.trim(),
+        instruction: instructionString.trim()
+      };
+
+      recipeArray.push(step);
     }
-  }
+  } else if (stringArray.includes("\r\n")) {
+    // if the step and instuction is separated by \r\n then each string between \r\n is its own instuction
+    const array = stringArray.split("\r\n");
 
-  // search through the string and filter the step from the instruction
-  for (let i = 0; i < colonIndexes.length; i++) {
-    let instructionStep = "";
-    let instructionString = "";
-    
-    // this if statement takes care of the case when this is the first iteration, then get the first step
-    if (i === 0) {
-      instructionStep = stringArray.substring(0, colonIndexes[0]); // first step will be from index 0 to the index of the first colon (aka colonIndexes[0])
+    for (let i = 0; i < array.length; i++) {
+      const step = {
+        step: `Step ${i + 1}`,
+        instruction: array[i]
+      };
 
-      // get the index of the last period for our current step, so that the next step knows where to start
-      const lastPeriod = stringArray.substring(0, colonIndexes[i + 1]);
-      periodIndexes.push(lastPeriod.lastIndexOf(".") - 1); 
-
-      instructionString = stringArray.substring(2, colonIndexes[1]); // create a new substring using from index 2 (index 0 and 1 are ": ") to the next semi-colon
-      instructionString = instructionString.substring(colonIndexes[0], instructionString.lastIndexOf(".")); // using this subtring, cut out everything after the last period
-    } else {
-      instructionStep = stringArray.substring(periodIndexes[i-1] + 3, colonIndexes[i]); // next step will be from the previous period to the next semi-colon (use +3 because we want the index after ".  ")
-
-      // get the index of the last period for our current step, so that the next step knows where to start      
-      const lastPeriod = stringArray.substring(0, colonIndexes[i + 1]);
-      periodIndexes.push(lastPeriod.lastIndexOf(".") - 1); // get the index of the last period for this step, so that we have an anchor point for the next step
-
-      instructionString = stringArray.substring(colonIndexes[i], colonIndexes[i+1]); // create a new substring  to the next semi-colon
-      instructionString = instructionString.substring(1, instructionString.lastIndexOf(".")); // start from index 1 (index 0 is ":") and cut out everything after the last period
+      recipeArray.push(step);
     }
 
-    const step = {
-      step: instructionStep.trim(),
-      instruction: instructionString.trim()
-    };
+    console.log(recipeArray);
+  } else {
+    console.log("Instructions DOES NOT CONTAIN ANYTHING");
+  }  
 
-    recipeArray.push(step);
-  }
-   
+
+
   for (let i = 0; i < recipeArray.length; i++) {
    // create a card and add the recipe's step and instruction
     const listItem = document.createElement("li");
@@ -151,7 +171,8 @@ function createInstructions(stringArray) {
     // add the recipe step and instruction to the page
     instructionsList.appendChild(listItem);
   }
-} // TODO check for the case when the instruction steps are in organized by numbers instead
+} // TODO check for the case when the instruction steps are in organized by numbers, \r\n
+
 
 function renderRecommended(recipe) {
   // this function will display up to four recipes that share the same category
@@ -202,7 +223,7 @@ function renderRecommended(recipe) {
       display.textContent = `There was an error retrieving recommended recipes: ${error.message}`;
     }
   );
-} // TODO add On-Click functionality to pull up that clicked recipe.  AND save this recipe to local storage for the recently viewed list
+} 
 
 function recommendedRecipeClick(event) {
   const recipeName = event.currentTarget.querySelector(".recommended-recipe-name").textContent;
@@ -251,7 +272,7 @@ function renderRecentlyViewed() {
       }
     ); 
   }
-}  // TODO Check for any dupicate recipes.  AND check if the current recipe is already in the recently viewed list.  ALSO WHATS THE ORDER THESE ARE BEING DISPLAYED?  
+}  // TODO WHen rendering the recently viewed section, the recipe cards sometimes rearrange???
 
 function recentlyViewedRecipeClick(event) {
   const recipeName = event.currentTarget.querySelector(".recently-viewed-recipe-name").textContent;
@@ -288,7 +309,7 @@ function saveRecipe(idMeal) {
 // I will have to figure out a way to separate the steps and instructions for this recipe.  
 // Maybe I can use the indexOf() method to find the indexes of the periods and then use those indexes to slice the string into an array of strings.  
 // Then I can loop through the array and create a card for each step and instruction.  
-// Beef Bourguinon
+// Beef Bourguignon
 // Pate Chinois
 // Big Mac
 // Red Peas Soup
@@ -297,12 +318,14 @@ function saveRecipe(idMeal) {
 // These instructions are separated by periods:
 // Beef and Mustard Pie 
 // Oxtail with broad beans
+// ^ Maybe I can just cut by periods
 
 // These instructions are separated by: \r\n
 // Mulukhiyah
 // Beef_Banh_mi <- this recipe has a lot of \r\n\r\n\r\n
 
-// ^ Maybe I can just cut by periods
+// These instructions are separated by: \r\n1) 
+// Belgian Meatballs
 
 // the ingredients for "Beef stroganoff" are null for some reason
 
