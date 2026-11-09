@@ -1,7 +1,7 @@
 // This is the data I get from: https://www.themealdb.com/api/json/v1/1/search.php?f=a
 // it is a JSON Object
 
-fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=Pate%20Chinois"); // DELETE THIS.  TODO REPLACE THIS WITH THE RECIPE NAME FROM THE URL PARAMETER
+fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=Algerian%20Kefta"); // DELETE THIS.  TODO REPLACE THIS WITH THE RECIPE NAME FROM THE URL PARAMETER
 
 let recentlyViewedArray = [];
 
@@ -139,7 +139,7 @@ function createInstructions(stringArray) {
     }
   } else if (stringArray.includes("\r\n")) {
     // if the step and instuction is separated by \r\n then each string between \r\n is its own instuction
-    const array = stringArray.split("\r\n");
+    const array = stringArray.split(/(?:\r?\n)+/);
 
     for (let i = 0; i < array.length; i++) {
       const step = {
@@ -324,8 +324,11 @@ function saveRecipe(idMeal) {
 // Mulukhiyah
 // Beef_Banh_mi <- this recipe has a lot of \r\n\r\n\r\n
 
-// These instructions are separated by: \r\n1) 
+// These instructions are separated by: \r\n 
 // Belgian Meatballs
+
+// This recipe has: Step 1 \r\n Instruction \r\n Step 2...
+// Portuguese%20prego
 
 // the ingredients for "Beef stroganoff" are null for some reason
 
