@@ -1,7 +1,7 @@
 // This is the data I get from: https://www.themealdb.com/api/json/v1/1/search.php?f=a
 // it is a JSON Object
 
-fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=Algerian%20Kefta"); // DELETE THIS.  TODO REPLACE THIS WITH THE RECIPE NAME FROM THE URL PARAMETER
+fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=asado"); // DELETE THIS.  TODO REPLACE THIS WITH THE RECIPE NAME FROM THE URL PARAMETER
 
 let recentlyViewedArray = [];
 
@@ -50,20 +50,8 @@ function renderRecipe(recipe) {
   // loop through the key value pairs and add the values to the ingredientsList
   createIngredients(recipe);
 
-    // Get Recipe Steps
-//    const instructions = document.getElementById("instructions-list");  // DELETE THIS
-//    instructions.textContent = recipe.strInstructions;  // DELETE THIS
-
-    // TODO Separate the various instructions styles ( EXAMPLE:  Step 1: Step 2:  &&  Prepare:  &&  /r/n/r/n)
-    // maybe use indexOf to make an array of strings ["Step 1: ", "Step 2: ", ...., "step 10"]
-    // maybe use mock data
-
-
-
-    // separate instruction if it is organized by colon
-    // TODO separate instruction if it is organized by numbers
-    let stringArray = recipe.strInstructions; 
-    createInstructions(stringArray);
+  let stringArray = recipe.strInstructions; 
+  createInstructions(stringArray);
 } // Any TODO's?
 
 function createIngredients(recipe) {
@@ -322,10 +310,15 @@ function saveRecipe(idMeal) {
 
 // These instructions are separated by: \r\n
 // Mulukhiyah
-// Beef_Banh_mi <- this recipe has a lot of \r\n\r\n\r\n
+
+// This recipe has a : then a lot of \r\n\r\n\r\n
+// Beef_Banh_mi 
 
 // These instructions are separated by: \r\n 
 // Belgian Meatballs
+
+// This recipe's first step is too long and the string is being hidden behind the recipe image
+// Algerian%20Kefta
 
 // This recipe has: Step 1 \r\n Instruction \r\n Step 2...
 // Portuguese%20prego
