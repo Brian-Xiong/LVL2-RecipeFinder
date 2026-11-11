@@ -3,11 +3,13 @@
 
 // wire up the search button to connect the index page to the recipe page with fetchRecipe
 document.getElementById("search-button").addEventListener("click", handleSearchClick);
+renderSuggestedRecipes(); // get the user started with 4 random recipes
 
 function handleSearchClick() {
   const searchInput = document.getElementById("search-input");
   const searchTerm = searchInput.value.trim();
 
+  console.log("Click");
   if (searchTerm !== "") {
     // open up the search results page with the corresponding recipe
 
@@ -20,7 +22,56 @@ function handleSearchClick() {
   }
 }
 
+async function renderSuggestedRecipes() {
+  const results = await Promise.all([
+    fetchRandomRecipe(`https://www.themealdb.com/api/json/v2/1/randomselection.php`),
+    fetchRandomRecipe(`https://www.themealdb.com/api/json/v2/1/randomselection.php`),
+    fetchRandomRecipe(`https://www.themealdb.com/api/json/v2/1/randomselection.php`),
+    fetchRandomRecipe(`https://www.themealdb.com/api/json/v2/1/randomselection.php`)
+  ]);
+}
 
+function fetchRandomRecipe () {
+  const recipeList = `https://www.themealdb.com/api/json/v2/1/randomselection.php`;
+  fetch(recipeList)
+    .then((response) => { 
+      if (!response.ok) { 
+        throw new Error("Couldn't find any suggested recipes"); 
+      }
+      return response.json();
+    })
+    .then((list) => {
+      // randomly find 4 recipes from our total list of recommended recipes by category
+      const suggestedRecipesList = document.getElementById("suggested-recipes-list");
+      suggestedRecipesList.innerHTML = "";
+      console.log(list); // DELETE
+
+      // create a card and add the random recipe's information
+      const listItem = document.createElement("li");
+      listItem.className = "suggested-recipe";
+      listItem.id = "suggested-recipe";
+      listItem.addEventListener("click", recommendedRecipeClick);
+
+      console.log(list.meals[i].strMeal); //DELETE
+      console.log(list); // DELETE
+
+      listItem.innerHTML =  `
+        <div class="suggested-recipe-card">
+          <h4 class="suggested-recipe-name">${list.meals[i].strMeal}</h4>
+          <img id="suggested-recipe-image" src = ${list.meals[i].strMealThumb}>
+        </div>
+      `;
+
+      // add the recipe name and recipe image to the card
+      suggestedRecipesList.appendChild(listItem);
+      
+    })
+    .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
+      const display = document.getElementById("suggested-recipes");
+      display.textContent = `There was an error retrieving suggested recipes: ${error.message}`;
+    }
+  ); // end fetch
+}
 
 
 
@@ -237,6 +288,11 @@ function renderRecommended(recipe) {
     }
   );
 } 
+
+function suggestedRecipeClick(event) {
+  const recipeName = event.currentTarget.querySelector(".suggested-recipe-name").textContent;
+  fetchRecipe(`https://www.themealdb.com/api/json/v1/1/search.php?s=${recipeName}`);
+}
 
 function recommendedRecipeClick(event) {
   const recipeName = event.currentTarget.querySelector(".recommended-recipe-name").textContent;
