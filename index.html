@@ -9,15 +9,22 @@
 
     <body>
         <header>
-            <h1>Brian's Recipe Finder</h1>
-            <div class="header-actions">
-                <!-- Search and All Recipes buttons will be wired up in script.js -->
+            <div class="header-left">
                 <button class="home-btn" id="home-button">Home</button>
-                <input type="text" maxlength="50" id="search-input" placeholder="Search">
-                <button id="search-button">Search</button>
-                <button class="btn" id="all-recipes-button">All Recipes</button>
             </div>
-        </header>
+
+            <div class="header-title">
+                <h1>Brian's Recipe Finder</h1>
+                <div class="search-container">
+                    <input type="text" maxlength="50" id="search-input" placeholder="Search">
+                    <button id="search-button">Search</button>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="all-recipes-btn" id="all-recipes-btn">All Recipes</button>
+            </div>
+        </header>   
 
         <div class="container"> 
             <h2>Welcome to Brian's Recipe Finder!</h2>
