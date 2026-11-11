@@ -15,6 +15,8 @@
 
             <div class="header-title">
                 <h1>Brian's Recipe Finder</h1>
+
+                <!-- Search bar with a search button -->
                 <div class="search-container">
                     <input type="text" maxlength="50" id="search-input" placeholder="Search">
                     <button id="search-button">Search</button>
@@ -34,25 +36,19 @@
 
 
         <section class="content">
-            <!-- Search bar with a search button -->
-            <div class="section-block">
-                <input type="text" maxlength="50" id="search-input" placeholder="Enter recipe name or ingredient">
-                <button id="searchButton">Search</button>
-            </div>
-
             <!-- TODO add suggested recipes !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
-            <div class="section-block">
+            <section class="recommended-recipes">
                 <h3>Suggested Recipes</h3>
                 <ul id="suggested-recipes-list"></ul>
                 <!-- Suggested recipes will be dynamically added here -->
-            </div>
+            </section>
 
             <!-- TODO add recent recipes -->
-            <div class="section-block">
+            <section id="recently-viewed-recipes" class="recently-viewed-recipes">
                 <h3>Recent Recipes</h3>
-                <ul id="recent-recipes-list"></ul>
+                <ol id="recently-viewed-recipes-list"></ol>
                 <!-- Recent recipes will be dynamically added here -->
-            </div>
+            </section>
 
         </section>
 
