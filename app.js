@@ -1,7 +1,31 @@
 // This is the data I get from: https://www.themealdb.com/api/json/v1/1/search.php?f=a
 // it is a JSON Object
 
-fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=asado"); // DELETE THIS.  TODO REPLACE THIS WITH THE RECIPE NAME FROM THE URL PARAMETER
+// wire up the search button to connect the index page to the recipe page with fetchRecipe
+document.getElementById("search-button").addEventListener("click", handleSearchClick);
+
+function handleSearchClick() {
+  const searchInput = document.getElementById("search-input");
+  const searchTerm = searchInput.value.trim();
+
+  if (searchTerm !== "") {
+    // open up the search results page with the corresponding recipe
+
+
+
+  } else {
+    alert("Please enter a recipe to search for.");
+  }
+}
+
+
+
+
+
+
+
+
+//fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=asado"); // DELETE THIS.  TODO REPLACE THIS WITH THE RECIPE NAME FROM THE URL PARAMETER
 
 let recentlyViewedArray = [];
 
@@ -160,7 +184,6 @@ function createInstructions(stringArray) {
     instructionsList.appendChild(listItem);
   }
 } // TODO check for the case when the instruction steps are in organized by numbers, \r\n
-
 
 function renderRecommended(recipe) {
   // this function will display up to four recipes that share the same category
