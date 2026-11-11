@@ -11,14 +11,21 @@
 
         <!-- Header -->
         <header>
-            <h1 class="page-title">Brian's Recipe Finder</h1>
-            <!-- Search and All Recipes buttons will be wired up in script.js -->
-            <button class="home-btn"        id="home-button">Home</button>
-            <div class="search-container">
-                <input  class="search-input"    id="search-input" type="text" maxlength="50" placeholder="Search">
-                <button class="search-button"   id="search-button">Search</button>
+            <div class="header-left">
+                <button class="home-btn" id="home-button">Home</button>
             </div>
-            <button class="all-recipes-btn" id="all-recipes-button">All Recipes</button>
+
+            <div class="header-title">
+                <h1>Brian's Recipe Finder</h1>
+                <div class="search-container">
+                    <input type="text" maxlength="50" id="search-input" placeholder="Search">
+                    <button id="search-button">Search</button>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="all-recipes-btn" id="all-recipes-btn">All Recipes</button>
+            </div>
         </header>
     
         <!-- CREATE PAGE WITH TEST INFORMATION  -->
