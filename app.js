@@ -11,9 +11,11 @@ function handleSearchClick() {
   if (searchTerm !== "") {
     // open up the search results page with the corresponding recipe
 
+    // link to search results page
 
 
   } else {
+    // if the search bar is empty, let the user know
     alert("Please enter a recipe to search for.");
   }
 }
