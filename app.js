@@ -23,7 +23,8 @@ function handleSearchClick() {
 }
 
 async function renderSuggestedRecipes() {
-  const results = await Promise.all([
+  // make 4 api calls asynchronously
+  await Promise.all([
     fetchRandomRecipe(`https://www.themealdb.com/api/json/v2/1/randomselection.php`),
     fetchRandomRecipe(`https://www.themealdb.com/api/json/v2/1/randomselection.php`),
     fetchRandomRecipe(`https://www.themealdb.com/api/json/v2/1/randomselection.php`),
@@ -41,24 +42,18 @@ function fetchRandomRecipe () {
       return response.json();
     })
     .then((list) => {
-      // randomly find 4 recipes from our total list of recommended recipes by category
       const suggestedRecipesList = document.getElementById("suggested-recipes-list");
-      suggestedRecipesList.innerHTML = "";
-      console.log(list); // DELETE
 
       // create a card and add the random recipe's information
       const listItem = document.createElement("li");
       listItem.className = "suggested-recipe";
       listItem.id = "suggested-recipe";
-      listItem.addEventListener("click", recommendedRecipeClick);
-
-      console.log(list.meals[i].strMeal); //DELETE
-      console.log(list); // DELETE
+      listItem.addEventListener("click", suggestedRecipeClick);
 
       listItem.innerHTML =  `
         <div class="suggested-recipe-card">
-          <h4 class="suggested-recipe-name">${list.meals[i].strMeal}</h4>
-          <img id="suggested-recipe-image" src = ${list.meals[i].strMealThumb}>
+          <h4 class="suggested-recipe-name">${list.meals[0].strMeal}</h4>
+          <img id="suggested-recipe-image" src = ${list.meals[0].strMealThumb}>
         </div>
       `;
 
@@ -70,8 +65,8 @@ function fetchRandomRecipe () {
       const display = document.getElementById("suggested-recipes");
       display.textContent = `There was an error retrieving suggested recipes: ${error.message}`;
     }
-  ); // end fetch
-}
+  ); 
+} // TODO handle any duplicate recipes
 
 
 
