@@ -89,6 +89,56 @@ header {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.suggested-recipes {
+    max-width: 1500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#suggested-recipes-list {
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+    gap: 15px;
+}
+
+.suggested-recipe-card {
+    width: 300px;
+    min-width: 140px;
+    max-width: 800px;
+    height: 200px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #b3a8a857;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.1);
+}
+
+.suggested-recipe-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+
+#suggested-recipe-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+}
 
 
 /* Recipe Section */
