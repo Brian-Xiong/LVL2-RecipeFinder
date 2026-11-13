@@ -2,22 +2,23 @@
 // it is a JSON Object
 
 
-//fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=asado"); // DELETE THIS.  TODO REPLACE THIS WITH THE RECIPE NAME FROM THE URL PARAMETER
 
-// Run the API call when the page loads
-const params = new URLSearchParams(window.location.search);
-const recipeName = params.get("name"); // Get the recipe name from the URL
+renderPage(); // Run the API call when the page loads
 
-if (recipeName) {
-    const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${recipeName}`
-    fetchRecipe(url);
+
+function renderPage() {
+    const params = new URLSearchParams(window.location.search);
+    const recipeName = params.get("name"); // Get the recipe name from the URL
+
+    if (recipeName) {
+        const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${recipeName}`
+        fetchRecipe(url);
+    }
 }
 
-let recentlyViewedArray = [];
-
-// fetch the recipe so we can display it on the page
 function fetchRecipe(url) {
-  fetch(url)
+    // fetch the recipe so we can display it on the page
+    fetch(url)
     .then((response) => { // ensure we are able to get a response from the API
       if (!response.ok) { // response.ok checks whether the HTTP status code indicates success (200–299)
         throw new Error("Couldn't load recipe :("); // creates an error and rejects the promise chain, skipping the remaining code in this .then() callback
@@ -228,9 +229,11 @@ function recommendedRecipeClick(event) {
 }
 
 function renderRecentlyViewed() {
-  if (recentlyViewedArray.length === 0 ) {
-    return; // don't need to update the section if there are no recently viewed recipes, or if the current recipe is already in the recently viewed list
-  }
+    const recentlyViewedArray = JSON.parse(localStorage.getItem("recentlyViewed"));
+
+    if (recentlyViewedArray.length === 0 ) {
+        return; // don't need to update the section if there are no recently viewed recipes, or if the current recipe is already in the recently viewed list
+    }
   // otherwise display the recently viewed recipes on the page
   const recentlyViewed = document.getElementById("recently-viewed-recipes-list");
   recentlyViewed.innerHTML = "";
@@ -277,20 +280,22 @@ function recentlyViewedRecipeClick(event) {
 }
 
 function saveRecipe(idMeal) {
-  // to avoid duplicates in recently viewed section.  Check if the current recipe is already in the recently viewed list, don't need to store it into local storage again
-  if (recentlyViewedArray.includes(idMeal)) {
-    return;
-  }
+    // to avoid duplicates in recently viewed section.  Check if the current recipe is already in the recently viewed list, don't need to store it into local storage again
+    const recentlyViewedArray = JSON.parse(localStorage.getItem("recentlyViewed"));
 
-  // Save this recipe to local storage so we can later display it on the recently viewed list
-  recentlyViewedArray.push(idMeal);
+    if (recentlyViewedArray.includes(idMeal)) {
+        return;
+    }
 
-  if (recentlyViewedArray.length > 4) {
-    recentlyViewedArray.shift(); // remove the first element if the array length is greater than 4
-  } 
+    // Save this recipe to local storage so we can later display it on the recently viewed list
+    recentlyViewedArray.push(idMeal);
 
-  // Save the updated array to local storage
-  localStorage.setItem("recentlyViewed", JSON.stringify(recentlyViewedArray));
+    if (recentlyViewedArray.length > 4) {
+        recentlyViewedArray.shift(); // remove the first element if the array length is greater than 4
+    } 
+
+    // Save the updated array to local storage
+    localStorage.setItem("recentlyViewed", JSON.stringify(recentlyViewedArray));
 }
 
 // TODO what do I do for these recipe because the instructions are not organized by colons or numbers.  
@@ -309,6 +314,7 @@ function saveRecipe(idMeal) {
 // These instructions are separated by periods:
 // Beef and Mustard Pie 
 // Oxtail with broad beans
+// Cambodian Waffles
 // ^ Maybe I can just cut by periods
 
 // These instructions are separated by: \r\n

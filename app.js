@@ -18,21 +18,20 @@ function renderHeader() {
 
 }
 
-
-
-
 function homeClick() { 
   window.location.href = `index.html`;
-  console.log("HOME"); // DELETE THIS
 }
 
 
 function allRecipesClick() {
-  window.location.href = `allRecipes.html?name=${recipeName}`;
-  console.log("ALL RECIPE"); // DELETE THIS
-}
+  window.location.href = `allRecipes.html`;
+} // TODO set up All Recipes page
 
 function searchClick() {
+  // TODO create an HTML page and JS page for a search results page
+
+
+
   const recipeName = document.getElementById("search-input");
   window.location.href = `recipe.html?name=${recipeName}`;
   console.log("SEARCH"); // DELETE THIS

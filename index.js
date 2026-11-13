@@ -1,23 +1,6 @@
 // wire up the search button to connect the index page to the recipe page with fetchRecipe
-document.getElementById("search-button").addEventListener("click", handleSearchClick);
 renderSuggestedRecipes(); // get the user started with 4 random recipes
-
-function handleSearchClick() {
-  const searchInput = document.getElementById("search-input");
-  const searchTerm = searchInput.value.trim();
-
-  console.log("Click");
-  if (searchTerm !== "") {
-    // open up the search results page with the corresponding recipe
-
-    // link to search results page
-
-
-  } else {
-    // if the search bar is empty, let the user know
-    alert("Please enter a recipe to search for.");
-  }
-}
+renderRecantlyViewed();
 
 async function renderSuggestedRecipes() {
   // make 4 api calls asynchronously 
@@ -70,14 +53,57 @@ function fetchRandomRecipe () {
 function suggestedRecipeClick(event) {
     const recipeName = event.currentTarget.querySelector(".suggested-recipe-name").textContent;
     window.location.href = `recipe.html?name=${encodeURIComponent(recipeName)}`;
-
-//  fetchRecipe(`https://www.themealdb.com/api/json/v1/1/search.php?s=${recipeName}`);
 }
 
+function renderRecantlyViewed() {
+    const recentlyViewedArray = JSON.parse(localStorage.getItem("recentlyViewed"));
 
+    if (recentlyViewedArray.length === 0 ) {
+        return; // don't need to update the section if there are no recently viewed recipes, or if the current recipe is already in the recently viewed list
+    }
+  // otherwise display the recently viewed recipes on the page
+  const recentlyViewed = document.getElementById("recently-viewed-recipes-list");
+  recentlyViewed.innerHTML = "";
+  for (let i = 0; i < recentlyViewedArray.length; i++) {
+    // get the recipe information from the API for each of the recipes
+    const recipeUrl = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recentlyViewedArray[i]}`;
 
+    fetch(recipeUrl)
+      .then((response) => { 
+        if (!response.ok) { 
+          throw new Error("Couldn't find any recently viewed recipes"); 
+        }
+        return response.json();
+      })
+      .then((recipe) => {
+        // create a card and add the recipe's information
+        const listItem = document.createElement("li");
+        listItem.className = "recently-viewed-recipe";
+        listItem.id = "recently-viewed-recipe";
+        listItem.addEventListener("click", recentlyViewedRecipeClick); // add an event listener to the card so that when it is clicked, we can pull up that recipe
 
+        listItem.innerHTML =  `
+          <div class="recently-viewed-recipe-card">
+            <h4 class="recently-viewed-recipe-name">${recipe.meals[0].strMeal}</h4>
+            <img id="recently-viewed-recipe-image" src = ${recipe.meals[0].strMealThumb}>
+          </div>
+        `;
 
+        // add the recipe name and recipe image to the card
+        recentlyViewed.appendChild(listItem);
+      })
+      .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
+        const display = document.getElementById("recently-viewed-recipes");
+        display.textContent = `There was an error retrieving recently viewed recipes: ${error.message}`;
+      }
+    ); 
+  }
+}
+
+function recentlyViewedRecipeClick(event) {
+    const recipeName = event.currentTarget.querySelector(".recently-viewed-recipe-name").textContent;
+    window.location.href = `recipe.html?name=${encodeURIComponent(recipeName)}`;
+}
 
 
 
