@@ -1,4 +1,17 @@
-fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=asado"); // DELETE THIS.  TODO REPLACE THIS WITH THE RECIPE NAME FROM THE URL PARAMETER
+// This is the data I get from: https://www.themealdb.com/api/json/v1/1/search.php?f=a
+// it is a JSON Object
+
+
+//fetchRecipe("https://www.themealdb.com/api/json/v1/1/search.php?s=asado"); // DELETE THIS.  TODO REPLACE THIS WITH THE RECIPE NAME FROM THE URL PARAMETER
+
+// Run the API call when the page loads
+const params = new URLSearchParams(window.location.search);
+const recipeName = params.get("name"); // Get the recipe name from the URL
+
+if (recipeName) {
+    const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${recipeName}`
+    fetchRecipe(url);
+}
 
 let recentlyViewedArray = [];
 
@@ -289,6 +302,9 @@ function saveRecipe(idMeal) {
 // Big Mac
 // Red Peas Soup
 // Satee
+
+// This recipe simply says "Make and Enjoy"
+// Bread omelette
 
 // These instructions are separated by periods:
 // Beef and Mustard Pie 

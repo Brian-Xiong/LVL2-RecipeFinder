@@ -1,100 +1,47 @@
-// This is the data I get from: https://www.themealdb.com/api/json/v1/1/search.php?f=a
-// it is a JSON Object
-
-// wire up the search button to connect the index page to the recipe page with fetchRecipe
-document.getElementById("search-button").addEventListener("click", handleSearchClick);
-renderSuggestedRecipes(); // get the user started with 4 random recipes
-
-function handleSearchClick() {
-  const searchInput = document.getElementById("search-input");
-  const searchTerm = searchInput.value.trim();
-
-  console.log("Click");
-  if (searchTerm !== "") {
-    // open up the search results page with the corresponding recipe
-
-    // link to search results page
+renderHeader();
 
 
-  } else {
-    // if the search bar is empty, let the user know
-    alert("Please enter a recipe to search for.");
-  }
+// TODO render the header and its buttons
+function renderHeader() {
+  // add event listener to the home button
+  const homeBtn = document.getElementById("home-button");
+  homeBtn.addEventListener("click", homeClick);
+
+  // add event listener to the searchbutton
+  const searchBtn = document.getElementById("search-button");
+  searchBtn.addEventListener("click", searchClick);
+
+
+  // add event listener to the all recipes button
+  const allRecipesBtn = document.getElementById("all-recipes-button");
+  allRecipesBtn.addEventListener("click", allRecipesClick);
+
 }
 
-async function renderSuggestedRecipes() {
-  // make 4 api calls asynchronously 
-  await Promise.all([
-    fetchRandomRecipe(`https://www.themealdb.com/api/json/v2/1/randomselection.php`),
-    fetchRandomRecipe(`https://www.themealdb.com/api/json/v2/1/randomselection.php`),
-    fetchRandomRecipe(`https://www.themealdb.com/api/json/v2/1/randomselection.php`),
-    fetchRandomRecipe(`https://www.themealdb.com/api/json/v2/1/randomselection.php`)
-  ]);
+
+
+
+function homeClick() { 
+  window.location.href = `index.html`;
+  console.log("HOME"); // DELETE THIS
 }
 
-function fetchRandomRecipe () {
-  const recipeList = `https://www.themealdb.com/api/json/v2/1/randomselection.php`;
-  fetch(recipeList)
-    .then((response) => { 
-      if (!response.ok) { 
-        throw new Error("Couldn't find any suggested recipes"); 
-      }
-      return response.json();
-    })
-    .then((list) => {
-      const suggestedRecipesList = document.getElementById("suggested-recipes-list");
 
-      // create a card and add the random recipe's information
-      const listItem = document.createElement("li");
-      listItem.className = "suggested-recipe";
-      listItem.id = "suggested-recipe";
-      listItem.addEventListener("click", suggestedRecipeClick);
+function allRecipesClick() {
+  window.location.href = `allRecipes.html?name=${recipeName}`;
+  console.log("ALL RECIPE"); // DELETE THIS
+}
 
-      listItem.innerHTML =  `
-        <div class="suggested-recipe-card">
-          <h4 class="suggested-recipe-name">${list.meals[0].strMeal}</h4>
-          <img id="suggested-recipe-image" src = ${list.meals[0].strMealThumb}>
-        </div>
-      `;
-
-      // add the recipe name and recipe image to the card
-      suggestedRecipesList.appendChild(listItem);
-      
-    })
-    .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
-      console.log(error.message);
-      const display = document.getElementById("suggested-recipes");
-      display.textContent = `There was an error retrieving suggested recipes: ${error.message}`;
-    }
-  ); 
-} // TODO handle any duplicate recipes
-
-
-function suggestedRecipeClick(event) {
-  const recipeName = event.currentTarget.querySelector(".suggested-recipe-name").textContent;
-
-  window.location.href = `recipe.html?name=${encodeURIComponent(recipeName)}`;
-
-//  fetchRecipe(`https://www.themealdb.com/api/json/v1/1/search.php?s=${recipeName}`);
-} // TODO connect the index page to the recipe page
-
-// // Get the recipe name from the URL
-// const params = new URLSearchParams(window.location.search);
-// const recipeName = params.get("name");
-
-// // Run the API call when the page loads
-// if (recipeName) {
-//   console.log(recipeName);
-//   const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${recipeName}`
-//   fetchRecipe(url);
-// }
+function searchClick() {
+  const recipeName = document.getElementById("search-input");
+  window.location.href = `recipe.html?name=${recipeName}`;
+  console.log("SEARCH"); // DELETE THIS
+}
 
 
 
 
-
-
-
+// TODO render the footer
 
 // TODO add a contact form for the user to contact me
 
