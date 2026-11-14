@@ -11,7 +11,7 @@
 # HTML | CSS | JavaScript | TheMealDB REST API
 
 ## Features & Implementation
-# Recipe Search:      Fetch recipe data from TheMealDB API using Axios and async/await.
+# Recipe Search:      Fetch recipe data from TheMealDB API using Fetch and async/await.
 # Dynamic UI:         Generate recipe cards using JavaScript DOM manipulation.
 # Recently Viewed:    Save and retrieve recently viewed recipes using Local Storage.
 # Category Filtering: Filter recipes using JavaScript array methods.
