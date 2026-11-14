@@ -1,8 +1,8 @@
 # This project will be a recipe finder.  
 # It will incorporate DOM manipulation, Event listeners, local storage and an API
 # 
-# using excalidraw to plan out how the pages will look
-# https://excalidraw.com/
+# using excalidraw to plan out how the pages will look:
+# https://excalidraw.com/#json=OgS9hlN1m6oJhgg7RI0Ja,MWK8zKNYcDFTwqSgRWwyEw
 # 
 
 **Tech:** HTML, CSS, JavaScript
@@ -11,7 +11,7 @@
 ✅ Render recipe cards to the DOM using component functions — each card built with `createElement` and `appendChild`
 ✅ Save favorite recipes to localStorage — store as an array of recipe objects using `JSON.stringify`; load and render on page start with a null check
 ✅ Filter displayed recipes by category — client-side filter using `.filter()` on the loaded array
-✅ Contact form — validate all fields; store submitted messages in localStorage; display a confirmation message
+✅ Contact form — validate all fields; store submitted messages in localStorage; display a confirmation message 
 ✅ Responsive design
 
 
