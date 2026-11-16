@@ -45,22 +45,51 @@ header {
 }
 
 .search-list {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
     list-style: none;
+
+    position: absolute; /* put the search list directly under the search-input*/
+    top: 100%;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    z-index: 100;
+
 }
+
+/* TEST*/ 
+.search-input-wrapper {
+    position: relative;
+
+}
+.search-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+}
+
 .search-recipe-card {
     height: 40px;
     width: 300px;
     font-size: 18px;
     cursor: pointer;
     margin-right: auto;
-position:absolute;
+    position: absolute;
+    
+    top: 100%;
+    left: 0;
 
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row; /* we want a row so the recipe name and image are on the same line*/
+    justify-content: space-between; /* put the recipe name and the image in the same line.  Otherwise image is on a second line, but outside the box */
     gap: 10px;
     padding: 10px;
-    background-color: #b3a8a857;
+    color: black;
+    background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 0 5px rgba(255, 0, 0, 0.1);
 }

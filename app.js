@@ -66,9 +66,15 @@ console.log(list); // DELETE THIS
       listItem.id = "search-recipe";
       listItem.addEventListener("click", searchRecipeClick);
 
+// TODO shorten the recipe name if its too long, otherwise it will be displayed on two lines
+// EX: searching "." will return "Dulce de Leche Cheesecake with a Maria Cookie Crust. (Dessert)"
+
+
+
+
       listItem.innerHTML =  `
         <div class="search-recipe-card">
-          <h4 class="search-recipe-name">${list.meals[0].strMeal}</h4>
+          <h4 class="search-recipe-name">${list.meals[0].strMeal} (${list.meals[0].strCategory})</h4>
           <img id="search-recipe-image" src = ${list.meals[0].strMealThumb}>
         </div>
       `;
@@ -98,7 +104,7 @@ console.log(list); // DELETE THIS
 
 
 
-} // TODO 
+} // TODO fix the recipe name if it is too many characters, because then the recipe name will be 2 lines
 
 
 function searchRecipeClick(event) {
