@@ -43,6 +43,42 @@ header {
     cursor: pointer;
     margin-right: auto;
 }
+
+.search-list {
+    list-style: none;
+}
+.search-recipe-card {
+    height: 40px;
+    width: 300px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-right: auto;
+position:absolute;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #b3a8a857;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.1);
+}
+
+.search-recipe-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+
+#search-recipe-image {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
 /*
 .search-container {
     position: relative;
@@ -129,6 +165,16 @@ header {
     justify-content: flex-end;
     gap: 5px; 
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

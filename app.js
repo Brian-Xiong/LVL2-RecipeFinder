@@ -56,25 +56,25 @@ function autocomplete() {
       return response.json();
     })
     .then((list) => {
-      const suggestedList = document.getElementById("suggestions");
+      const searchList = document.getElementById("search-list");
 console.log(list); // DELETE THIS
 
 //UNCOMMENT       for (let i = 0; i < 4; i++) {
       // create a card and add the random recipe's information
       const listItem = document.createElement("li");
-      listItem.className = "suggested-recipe";
-      listItem.id = "suggested-recipe";
-      listItem.addEventListener("click", suggestedRecipeClick);
+      listItem.className = "search-recipe";
+      listItem.id = "search-recipe";
+      listItem.addEventListener("click", searchRecipeClick);
 
       listItem.innerHTML =  `
-        <div class="suggested-recipe-card">
-          <h4 class="suggested-recipe-name">${list.meals[0].strMeal}</h4>
-          <img id="suggested-recipe-image" src = ${list.meals[0].strMealThumb}>
+        <div class="search-recipe-card">
+          <h4 class="search-recipe-name">${list.meals[0].strMeal}</h4>
+          <img id="search-recipe-image" src = ${list.meals[0].strMealThumb}>
         </div>
       `;
 
       // add the recipe name and recipe image to the card
-      suggestedList.appendChild(listItem);
+      searchList.appendChild(listItem);
 //UNCOMMENT    } //
     })
     .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
@@ -99,6 +99,12 @@ console.log(list); // DELETE THIS
 
 
 } // TODO 
+
+
+function searchRecipeClick(event) {
+  const recipeName = event.currentTarget.querySelector(".search-recipe-name").textContent;
+  window.location.href = `recipe.html?name=${encodeURIComponent(recipeName)}`;
+}
 
 
 // TODO render the footer
