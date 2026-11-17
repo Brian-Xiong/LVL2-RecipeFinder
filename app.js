@@ -44,7 +44,13 @@ function searchClick() {
 
 function autocomplete() {
   const input = document.getElementById("search-input").value;
-console.log(input); // DELETE THIS
+    const searchList = document.getElementById("search-list");
+    searchList.innerHTML = ""; // remove all previous search options
+
+  if (input === "") {
+    // if the user deleted all the characters in the search box, return
+    return;
+  }
 
   // Use this URL to search for the results in the searchbar using FETCH
   const recipeList = `https://www.themealdb.com/api/json/v1/1/search.php?s=${input}`;
@@ -56,10 +62,7 @@ console.log(input); // DELETE THIS
       return response.json();
     })
     .then((list) => {
-      const searchList = document.getElementById("search-list");
-console.log(searchList); // DELETE THIS
-
-      for (let i = 0; i < 4; i++) {                                                   // TODO change from 4 to 
+      for (let i = 0; i < 10; i++) {
         // create a card and add the random recipe's information
         const listItem = document.createElement("li");
         listItem.className = "search-recipe";
@@ -69,7 +72,6 @@ console.log(searchList); // DELETE THIS
   // TODO shorten the recipe name if its too long, otherwise it will be displayed on two lines
   // EX: searching "." will return "Dulce de Leche Cheesecake with a Maria Cookie Crust. (Dessert)"
 
-console.log("adding: " + list.meals[i].strMeal); // DELETE THIS
 
 
         listItem.innerHTML =  `
@@ -81,7 +83,7 @@ console.log("adding: " + list.meals[i].strMeal); // DELETE THIS
 
         // add the recipe name and recipe image to the card
         searchList.appendChild(listItem);
-      } //
+      } 
     })
     .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
       console.log(error.message);
