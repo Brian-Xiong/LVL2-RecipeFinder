@@ -44,7 +44,7 @@ function searchClick() {
 
 function autocomplete() {
   const input = document.getElementById("search-input").value;
-  console.log(input); // DELETE THIS
+console.log(input); // DELETE THIS
 
   // Use this URL to search for the results in the searchbar using FETCH
   const recipeList = `https://www.themealdb.com/api/json/v1/1/search.php?s=${input}`;
@@ -57,31 +57,31 @@ function autocomplete() {
     })
     .then((list) => {
       const searchList = document.getElementById("search-list");
-console.log(list); // DELETE THIS
+console.log(searchList); // DELETE THIS
 
-//UNCOMMENT       for (let i = 0; i < 4; i++) {
-      // create a card and add the random recipe's information
-      const listItem = document.createElement("li");
-      listItem.className = "search-recipe";
-      listItem.id = "search-recipe";
-      listItem.addEventListener("click", searchRecipeClick);
+      for (let i = 0; i < 4; i++) {                                                   // TODO change from 4 to 
+        // create a card and add the random recipe's information
+        const listItem = document.createElement("li");
+        listItem.className = "search-recipe";
+        listItem.id = "search-recipe";
+        listItem.addEventListener("click", searchRecipeClick);
 
-// TODO shorten the recipe name if its too long, otherwise it will be displayed on two lines
-// EX: searching "." will return "Dulce de Leche Cheesecake with a Maria Cookie Crust. (Dessert)"
+  // TODO shorten the recipe name if its too long, otherwise it will be displayed on two lines
+  // EX: searching "." will return "Dulce de Leche Cheesecake with a Maria Cookie Crust. (Dessert)"
+
+console.log("adding: " + list.meals[i].strMeal); // DELETE THIS
 
 
+        listItem.innerHTML =  `
+          <div class="search-recipe-card">
+            <h4 class="search-recipe-name">${list.meals[i].strMeal} (${list.meals[i].strCategory})</h4>
+            <img id="search-recipe-image" src = ${list.meals[i].strMealThumb}>
+          </div>
+        `;
 
-
-      listItem.innerHTML =  `
-        <div class="search-recipe-card">
-          <h4 class="search-recipe-name">${list.meals[0].strMeal} (${list.meals[0].strCategory})</h4>
-          <img id="search-recipe-image" src = ${list.meals[0].strMealThumb}>
-        </div>
-      `;
-
-      // add the recipe name and recipe image to the card
-      searchList.appendChild(listItem);
-//UNCOMMENT    } //
+        // add the recipe name and recipe image to the card
+        searchList.appendChild(listItem);
+      } //
     })
     .catch((error) => { // This triggers when a promise anywhere earlier in this chain is rejected
       console.log(error.message);
