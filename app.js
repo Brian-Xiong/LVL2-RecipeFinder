@@ -40,12 +40,11 @@ function searchClick() {
   const recipeName = document.getElementById("search-input");
   window.location.href = `recipe.html?name=${recipeName}`;
   console.log("SEARCH"); // DELETE THIS
-}
+} // TODO create a search results page
 
 function autocomplete() {
   const input = document.getElementById("search-input").value;
-    const searchList = document.getElementById("search-list");
-    searchList.innerHTML = ""; // remove all previous search options
+  const searchList = document.getElementById("search-list");
 
   if (input === "") {
     // if the user deleted all the characters in the search box, return
@@ -62,21 +61,25 @@ function autocomplete() {
       return response.json();
     })
     .then((list) => {
-      for (let i = 0; i < 10; i++) {
+      // "list" returns a maximum of 25 items, but I think 25 items is too much.  So I will display a maximum of 10 items.
+      // Use Math.min because sometimes the list length might be less thdn 10 and we don't want the lopo to run longer than the list length
+      for (let i = 0; i < Math.min(list.meals.length, 10); i++) { 
         // create a card and add the random recipe's information
         const listItem = document.createElement("li");
         listItem.className = "search-recipe";
         listItem.id = "search-recipe";
         listItem.addEventListener("click", searchRecipeClick);
 
-  // TODO shorten the recipe name if its too long, otherwise it will be displayed on two lines
-  // EX: searching "." will return "Dulce de Leche Cheesecake with a Maria Cookie Crust. (Dessert)"
+        let recipeName = list.meals[i].strMeal;
 
-
+        // If the recipe name is too long, shorten the recipe name if its too long because it will be displayed on two lines
+        if (list.meals[i].strMeal.length > 20) {
+          recipeName = list.meals[i].strMeal.substring(0, 20) + "...";
+        } 
 
         listItem.innerHTML =  `
           <div class="search-recipe-card">
-            <h4 class="search-recipe-name">${list.meals[i].strMeal} (${list.meals[i].strCategory})</h4>
+            <h4 class="search-recipe-name">${recipeName} (${list.meals[i].strCategory})</h4>
             <img id="search-recipe-image" src = ${list.meals[i].strMealThumb}>
           </div>
         `;

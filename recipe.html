@@ -17,9 +17,14 @@
 
             <div class="header-title">
                 <h1>Brian's Recipe Finder</h1>
+
+                <!-- Search bar with a search button -->
                 <div class="search-container">
-                    <input type="text" maxlength="50" id="search-input" placeholder="Search">
-                    <button id="search-button">Search</button>
+                    <div class="search-input-wrapper">
+                        <input type="text" maxlength="50" id="search-input" placeholder="Search" autocomplete="off">
+                        <ul id="search-list" class="search-list"></ul>
+                    </div>
+                <button type="button" id="search-button">Search</button>
                 </div>
             </div>
 
