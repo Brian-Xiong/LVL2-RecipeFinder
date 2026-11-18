@@ -45,6 +45,7 @@ function searchClick() {
 function autocomplete() {
   const input = document.getElementById("search-input").value;
   const searchList = document.getElementById("search-list");
+  searchList.innerHTML = "";
 
   if (input === "") {
     // if the user deleted all the characters in the search box, return
@@ -79,7 +80,10 @@ function autocomplete() {
 
         listItem.innerHTML =  `
           <div class="search-recipe-card">
-            <h4 class="search-recipe-name">${recipeName} (${list.meals[i].strCategory})</h4>
+            <div class="search-recipe-info">
+              <h4 class="search-recipe-name">${recipeName}</h4>
+              <h4 class="search-recipe-category">(${list.meals[i].strCategory})</h4>
+            </div>
             <img id="search-recipe-image" src = ${list.meals[i].strMealThumb}>
           </div>
         `;
@@ -113,9 +117,9 @@ function autocomplete() {
 
 
 function searchRecipeClick(event) {
-  const recipeName = event.currentTarget.querySelector(".search-recipe-name").textContent;
+  const recipeName = event.currentTarget.querySelector(".search-recipe-name").textContent; 
   window.location.href = `recipe.html?name=${encodeURIComponent(recipeName)}`;
-}
+} // TODO FIX 
 
 
 // TODO render the footer

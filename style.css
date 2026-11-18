@@ -98,6 +98,11 @@ header {
     cursor: pointer;
 }
 
+.search-recipe-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
 #search-recipe-image {
     width: 45px;
