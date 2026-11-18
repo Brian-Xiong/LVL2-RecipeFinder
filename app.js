@@ -98,23 +98,7 @@ function autocomplete() {
       display.textContent = `There was an error searching recipes: ${error.message}`;
     }
   );
-
-
-  // display the results in the drop down
-
-
-
-  //  if NO results, don't show dropdown
-
-
-
-
-  // When recipe inside dropdown is clicked, go to recipe page with clicked recipe information
-
-
-
-} // TODO fix the recipe name if it is too many characters, because then the recipe name will be 2 lines
-
+} 
 
 function searchRecipeClick(event) {
   const recipeName = event.currentTarget.querySelector(".search-recipe-name").textContent; 

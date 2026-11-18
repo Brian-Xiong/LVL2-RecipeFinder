@@ -36,6 +36,18 @@ header {
     white-space: nowrap;
 }
 
+
+footer {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: #bd1c1c;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
 .home-btn {
     height: 100px;
     width: 143px;
@@ -110,8 +122,6 @@ header {
     object-fit: cover;
     border-radius: 10px;
 }
-
-
 
 .suggestions li {
     height: 45px;

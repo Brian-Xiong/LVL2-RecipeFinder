@@ -1,6 +1,6 @@
 ## Brian's Recipe Finder
 # A web application that allows users to search for recipes and discover meal ideas using TheMealDB REST API. 
-# Built with HTML, CSS, and #JavaScript.
+# Built with HTML, CSS, and JavaScript.
 # This project demonstrates front-end web development, API integration, and interactive user interface functionality.
 # 
 # Try it here:
