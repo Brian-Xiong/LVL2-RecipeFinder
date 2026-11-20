@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Brian's Recipe Finder</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <header>
+            <div class="header-left">
+                <button class="home-btn" id="home-button">Home</button>
+            </div>
+
+            <div class="header-title">
+                <h1>Brian's Recipe Finder</h1>
+
+                <!-- Search bar with a search button -->
+                <div class="search-container">
+                    <div class="search-input-wrapper">
+                        <input type="text" maxlength="50" id="search-input" placeholder="Search" autocomplete="off">
+                        <ul id="search-list" class="search-list"></ul>
+                    </div>
+                <button type="button" id="search-button">Search</button>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="all-recipes-button" id="all-recipes-button">All Recipes</button>
+            </div>
+        </header>   
+
+        <h1>Contact</h1>
+        <p class="contact-subheader">Please leave any questions, comments, or concerns below</p>
+        
+        <form class="contact-form">
+            <div class="field">
+                <label class="field-label">
+                    <span>Name</span>
+                </label>
+                <input class="input" type="text" maxlength="50" id="name-input" placeholder="Name" autocomplete="off">
+            </div>
+
+            <div class="field">
+                <label class="field-label">
+                    <span>Email</span>
+                </label>
+                <input class ="input" required type="email" maxlength="50" id="email-input" placeholder="Email" autocomplete="off">
+            </div>
+            
+            <div class="field">
+                <label class="field-label">
+                    <span>Message</span>
+                </label>
+                <input class="input" type="text" maxlength="50" id="name-input" placeholder="Message" autocomplete="off">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="send-message-button">Send Message</button>
+            </div>
+        </form>
+    </body>
+</html>
