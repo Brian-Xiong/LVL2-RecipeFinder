@@ -381,6 +381,34 @@ footer {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    /* This will space out the items in the grid evenly so the text doesn't overlap with the input field above it*/
+    display:grid;
+    gap: 30px; 
 }
 
+.input {
+    border: 2px solid #333;
+    border-radius: 10px;
+    width: 400px;
+    min-height: 44px;
+    padding: 10px 13px;
+    font-size: 15px;
+}
 
+.message-textarea {
+    border: 2px solid #333;
+    border-radius: 10px;
+    width: 400px;
+    height: 250px;
+    min-height: 44px;
+    padding: 10px 13px;
+    font-size: 15px;
+}
+
+.field {
+    gap: 15px;
+    align-items: start;               
+    min-width: 0;
+    display: grid;
+}
