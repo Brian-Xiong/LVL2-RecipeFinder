@@ -434,6 +434,18 @@ footer {
 }
 
 
+/* Applied via JavaScript when a field is empty */
+input.error, textarea.error {
+  border-color: #e74c3c;
+  background-color: #fdf2f2;
+}
+
+.error-text {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  min-height: 1em; /* Prevents layout jump when text appears */
+}
 
 
 
