@@ -1,6 +1,7 @@
 renderForm();
 
 function renderForm() {
+    console.log("TEST");
 // add event listener to the send form button
   const homeBtn = document.getElementById("send-message-button");
   homeBtn.addEventListener("click", sendClick);
@@ -16,20 +17,38 @@ function sendClick() {
     const email = document.getElementById("email-input").value.trim();
     const message = document.getElementById("message-textarea").value.trim();
 
-    
-    
-// TODO add error handling if any of the textboxes are empty 
+
     const display = document.getElementById("contact-form");
     display.textContent = `There was an error retrieving the recipe: ${error.message}`;
 
 // TODO add error handling if any of the textboxes are in an invalid format
 
 
-    // validate all fields
-    if (name === "" || email === "" || message === "") {
+console.log("The field is empty");
+    // add error handling if any of the textboxes are empty
+    if (name === "") {
+        // output to the user that one or more of the fields are empty
+        name.classList.add('error');
+        const errorDisplay = document.getElementById("name-field");
+        errorDisplay.textContent = "The field cannot be empty";
+
+        name.appendChild();
+        console.log("The field is empty");
+        return;
+    }
+
+    if (message === "") {
         // output to the user that one or more of the fields are empty
 
-        console.log("Name or email is not valid");
+        console.log("The field is empty");
+        return;
+    }
+
+    // validate all fields
+    if (email === "") {
+        // output to the user that one or more of the fields are empty
+
+        console.log("The field is empty");
         return;
     }
 
@@ -46,10 +65,9 @@ function sendClick() {
 }
 
 function checkField(inputId, errorId, message) {
-    const input = document.getElementById(inputId);
+    const input = document.getElementById("name-label");
     const errorDisplay = document.getElementById(errorId);
 
-    // .trim() removes accidental spaces before/after text
     if (input.value.trim() === '') {
       input.classList.add('error');
       errorDisplay.textContent = message;
