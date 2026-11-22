@@ -1,7 +1,6 @@
 renderForm();
 
 function renderForm() {
-    console.log("TEST");
 // add event listener to the send form button
   const homeBtn = document.getElementById("send-message-button");
   homeBtn.addEventListener("click", sendClick);
@@ -13,34 +12,32 @@ function renderForm() {
 function sendClick() {
     event.preventDefault(); // stop the page from refreshing when submitting a form 
 
-    const name = document.getElementById("name-input").value.trim();
-    const email = document.getElementById("email-input").value.trim();
-    const message = document.getElementById("message-textarea").value.trim();
+    const nameInput = document.getElementById("name-input").value.trim();
+    const emailInput = document.getElementById("email-input").value.trim();
+    const messageInput = document.getElementById("message-textarea").value.trim();
 
 
-    const display = document.getElementById("contact-form");
-    display.textContent = `There was an error retrieving the recipe: ${error.message}`;
+    // const display = document.getElementById("contact-form");
+    // display.textContent = `There was an error retrieving the recipe: ${error.message}`;
 
 // TODO add error handling if any of the textboxes are in an invalid format
 
 
-console.log("The field is empty");
     // add error handling if any of the textboxes are empty
-    if (name === "") {
-        // output to the user that one or more of the fields are empty
-        name.classList.add('error');
-        const errorDisplay = document.getElementById("name-field");
-        errorDisplay.textContent = "The field cannot be empty";
+    if (nameInput === "") {
+        // if the field is empty, let the user know
+        const nameLabel = document.getElementById("name-label");
+        const errorDisplay = document.getElementById("name-error");
 
-        name.appendChild();
-        console.log("The field is empty");
+        errorDisplay.textContent = "The field cannot be empty";
+        nameLabel.classList.add('error'); 
         return;
     }
 
     if (message === "") {
         // output to the user that one or more of the fields are empty
 
-        console.log("The field is empty");
+        console.log("The Message is empty"); // DELETE
         return;
     }
 
@@ -48,7 +45,7 @@ console.log("The field is empty");
     if (email === "") {
         // output to the user that one or more of the fields are empty
 
-        console.log("The field is empty");
+        console.log("The email is empty"); // DELETE
         return;
     }
 
@@ -59,6 +56,7 @@ console.log("The field is empty");
 
     // for this project, I will store the submissions in localStorage
 //    localStorage.setItem("message", JSON.stringify(__________________));
+//     form.reset(); // Clears the fields in the form
 
     // display a confirmation message to the user
     console.log("Form was submitted");
@@ -69,7 +67,6 @@ function checkField(inputId, errorId, message) {
     const errorDisplay = document.getElementById(errorId);
 
     if (input.value.trim() === '') {
-      input.classList.add('error');
       errorDisplay.textContent = message;
       isValid = false;
     } else {
