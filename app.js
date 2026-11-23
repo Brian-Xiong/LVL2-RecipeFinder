@@ -17,6 +17,9 @@ function renderHeader() {
   const input = document.getElementById("search-input");
   input.addEventListener("input", autocomplete); // whenever the user inputs or deletes from the searchbar, display relevant recipes
 
+  // add event listener to the all recipes button
+  const contactBtn = document.getElementById("contact-button");
+  contactBtn.addEventListener("click", contactClick);
 
 
 
@@ -27,6 +30,9 @@ function homeClick() {
   window.location.href = `index.html`;
 }
 
+function contactClick() {
+  window.location.href = `contact.html`;
+}
 
 function allRecipesClick() {
   window.location.href = `allRecipes.html`;

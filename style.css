@@ -40,7 +40,7 @@ footer {
     align-items: center;
     justify-content: space-between;
 
-    background-color: #bd1c1c;
+    background-color: #1c349e;
     color: #fff;
     padding: 20px 0;
     text-align: center;
@@ -48,6 +48,14 @@ footer {
 
 .home-btn {
     height: 100px;
+    width: 143px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-right: auto;
+}
+
+.contact-btn {
+    height: 80px;
     width: 143px;
     font-size: 18px;
     cursor: pointer;
