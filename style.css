@@ -107,9 +107,9 @@ footer {
 }
 
 .search-recipe-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 #search-recipe-image {
@@ -259,7 +259,7 @@ footer {
 }
 
 .recipe-step {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 #recipe-image {
@@ -374,8 +374,8 @@ footer {
 
 /* Contact Page*/
 .contact-section {
-  width: fit-content; /* Hugs the exact width of your form */
-  margin: 0 auto;     /* Centers the entire section (header + form) on the page */
+    width: fit-content; /* Hugs the exact width of your form */
+    margin: 0 auto;     /* Centers the entire section (header + form) on the page */
 }
 
 .contact-form {
@@ -436,15 +436,16 @@ footer {
 
 /* Applied via JavaScript when a field is empty */
 input.error, textarea.error {
-  border-color: #e74c3c;
-  background-color: #fdf2f2;
+    border-color: #e74c3c;
+    background-color: #fdf2f2;
 }
 
 .error-text {
-  color: #e74c3c;
-  font-size: 0.85rem;
-  margin-top: 4px;
-  min-height: 1em; /* Prevents layout jump when text appears */
+    display: block; /* this will align the text under the input.  Otherwise the text would be to the right of the input*/
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    min-height: 1em; /* Prevents layout jump when text appears */
 }
 
 
