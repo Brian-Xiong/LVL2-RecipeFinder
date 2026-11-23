@@ -21,38 +21,55 @@ function sendClick() {
     // display.textContent = `There was an error retrieving the recipe: ${error.message}`;
 
 // TODO add error handling if any of the textboxes are in an invalid format
-
+    let isValid = true;
 
     // add error handling if any of the textboxes are empty
     if (nameInput === "") {
-        // if the field is empty, let the user know
-        const nameLabel = document.getElementById("name-label");
+        const label = document.getElementById("name-label");
         const errorDisplay = document.getElementById("name-error");
 
+        // tell the user this field is empty
         errorDisplay.textContent = "The field cannot be empty";
-        nameLabel.classList.add('error'); 
-        return;
+
+        // add error as a class so CSS can style it
+        label.classList.add('error'); 
+        isValid = false;
     }
 
-    if (message === "") {
-        // output to the user that one or more of the fields are empty
+    if (messageInput === "") {
+        const label = document.getElementById("message-label");
+        const errorDisplay = document.getElementById("message-error");
 
-        console.log("The Message is empty"); // DELETE
-        return;
+        // tell the user this field is empty
+        errorDisplay.textContent = "The field cannot be empty";
+
+        // add error as a class so CSS can style it
+        label.classList.add('error'); 
+        isValid = false;
     }
 
     // validate all fields
-    if (email === "") {
+    if (emailInput === "") {
         // output to the user that one or more of the fields are empty
+        const label = document.getElementById("email-label");
+        const errorDisplay = document.getElementById("email-error");
+    console.log("email");
 
-        console.log("The email is empty"); // DELETE
+        // tell the user this field is empty
+        errorDisplay.textContent = "The field cannot be empty";
+
+        // add error as a class so CSS can style it
+        label.classList.add('error'); 
+        isValid = false;
+    }
+
+    // if any of the fields are empty, return and tell the user
+    if (!isValid) {
+        
+        
         return;
     }
 
-    // 2. Run checks on all required fields
-    checkField('name', 'nameError', 'Please enter your name.');
-    checkField('email', 'emailError', 'Please enter your email address.');
-    checkField('message', 'messageError', 'Please write a message.');
 
     // for this project, I will store the submissions in localStorage
 //    localStorage.setItem("message", JSON.stringify(__________________));
