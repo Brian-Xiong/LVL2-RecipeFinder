@@ -165,7 +165,7 @@ function createInstructions(stringArray) {
         <p class="recipe-step" >${recipeArray[i].step}</p>
         <p class="recipe-instruction">${recipeArray[i].instruction}</p>
         <br>
-    `; // TODO style the recipe step and instruction to look like a card
+    `;
 
     // add the recipe step and instruction to the page
     instructionsList.appendChild(listItem);
@@ -283,6 +283,7 @@ function saveRecipe(idMeal) {
     // to avoid duplicates in recently viewed section.  Check if the current recipe is already in the recently viewed list, don't need to store it into local storage again
     const recentlyViewedArray = JSON.parse(localStorage.getItem("recentlyViewed"));
 
+    // ensure there are no dupicates
     if (recentlyViewedArray.includes(idMeal)) {
         return;
     }

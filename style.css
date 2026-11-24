@@ -456,7 +456,10 @@ input.error, textarea.error {
     min-height: 1em; /* Prevents layout jump when text appears */
 }
 
-
+.confirm{
+    color: green;
+    font-size: 25px;
+}
 
 
 
