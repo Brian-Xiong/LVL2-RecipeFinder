@@ -71,7 +71,26 @@ function sendClick() {
         return;
     }
 
+    const comment = {
+        name: nameInput, 
+        email: emailInput,
+        message: messageInput
+    };
 
+    // for this project, I will store the submissions in localStorage
+    localStorage.setItem("message", JSON.stringify(comment));
+
+    // display a confirmation message to the user
+    const user = document.getElementById("contact-subheader");
+    const contactForm = document.getElementById("contact-form");
+
+    const confirmText = document.createElement("p");
+    confirmText.className = "confirm";
+    confirmText.id = "confirm";
+    confirmText.innerHTML = `✅ Message has been sent!`;
+
+    user.appendChild(confirmText);
+    contactForm.reset();  // Clears the fields in the form
 }
 
 
