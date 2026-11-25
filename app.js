@@ -11,8 +11,8 @@ function renderHeader() {
   searchBtn.addEventListener("click", searchClick);
 
   // add event listener to the all recipes button
-  const allRecipesBtn = document.getElementById("all-recipes-button");
-  allRecipesBtn.addEventListener("click", allRecipesClick);
+//  const allRecipesBtn = document.getElementById("all-recipes-button");
+//  allRecipesBtn.addEventListener("click", allRecipesClick);
 
   const input = document.getElementById("search-input");
   input.addEventListener("input", autocomplete); // whenever the user inputs or deletes from the searchbar, display relevant recipes
@@ -24,7 +24,7 @@ function renderHeader() {
 
 
 
-} // TODO add event listener on the search bar to autocomplete
+} // TODO add all recipes
 
 function homeClick() { 
   window.location.href = `index.html`;
@@ -45,7 +45,6 @@ function searchClick() {
 
   const recipeName = document.getElementById("search-input");
   window.location.href = `recipe.html?name=${recipeName}`;
-  console.log("SEARCH"); // DELETE THIS
 } // TODO create a search results page
 
 function autocomplete() {
@@ -110,15 +109,6 @@ function searchRecipeClick(event) {
   const recipeName = event.currentTarget.querySelector(".search-recipe-name").textContent; 
   window.location.href = `recipe.html?name=${encodeURIComponent(recipeName)}`;
 } // TODO FIX 
-
-
-// TODO render the footer
-
-// TODO add a contact form for the user to contact me
-
-// TODO use media queries to make the recipe page responsive for mobile devices
-
-
 
 
 

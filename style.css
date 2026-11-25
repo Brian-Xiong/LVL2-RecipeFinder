@@ -7,9 +7,9 @@ body {
 }
 
 header {
-    display:flex;
+    display:grid;
+    grid-template-columns: 1fr auto 1fr; /* Left, Center, Right columns */
     align-items: center;
-    justify-content: space-between;
 
     background-color: #1c349e;
     color: #fff;
