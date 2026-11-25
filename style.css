@@ -254,16 +254,18 @@ footer {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: relative; 
+
+    overflow: auto; /* Prevents the image from spilling out of the bottom of the card */
 }
 
 .recipe-details #recipe-image {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    float: right;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 0 0 20px 20px; /* Adds space below and to the left of the image */
+
     width: 400px;
     height: 400px;
-    object-fit: contain;
 }
 
 .recipe-step {
